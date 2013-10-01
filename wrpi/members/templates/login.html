@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Member's Area Login</title>
+        <meta charset="utf-8"/>
+        <link rel="stylesheet" href="{{ STATIC_URL }}style.css">
+        <script src="{{ STATIC_URL }}jquery/jquery-1.9.1.js"></script>
+    </head>
+    <body>
+        <div id="message">{{ message }}</div>
+        <form action="." method="post">{% csrf_token %}
+            <input type="text" name="username" placeholder="Username"/><br/>
+            <input type="password" name="password" placeholder="Password"/><br/>
+            <input type="submit" value="Login"/>
+        </form>
+    </body>
+</html>
