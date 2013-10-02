@@ -1,0 +1,17 @@
+{% extends 'members/base.html' %}
+
+{% block title %}Members{% endblock %}
+
+{% block script %}login.js{% endblock %}
+
+{% block content %}
+<p>WRPI member's login page.</p>
+<form onSubmit="auth(this); return false;">
+    {% csrf_token %} 
+    <table>
+        {{ form.as_table }}
+    </table>
+    <input type="submit" value="Login"/>
+</form>
+<div id="message"></div>
+{% endblock %}

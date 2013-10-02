@@ -1,5 +1,7 @@
 from django.conf.urls import patterns, url
 
+from wrpi.public import views
+
 urlpatterns = patterns('',
-    url(r'^$', 'wrpi.public.views.index', name='index'),
+    url(r'^$', views.home, name='home'),
 )
