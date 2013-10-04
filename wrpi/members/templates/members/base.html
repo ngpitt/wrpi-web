@@ -1,16 +1,25 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>WRPI - {% block title %}{% endblock %}</title>
+        <title>WRPI Members - {% block title %}{% endblock %}</title>
         <meta charset="utf-8"/>
         <link rel="stylesheet" href="{{ STATIC_URL }}members/style.css">
         <script src="{{ STATIC_URL }}jquery/jquery-1.9.1.js"></script>
         <script src="{{ STATIC_URL }}members/{% block script %}{% endblock %}"></script>
     </head>
     <body>
-        <div id="content">
-            {% block content %}
-            {% endblock %}
+        {% if user.is_authenticated %}
+        <div id="menu">
+            <table>
+                <tr>
+                    <td><a href="../home">Home</a></td> 
+                    <td><a href="../settings">Settings</a></td>
+                    <td><a href="../logout">Logout</a></td>
+                </tr>
+            </table>
         </div>
+        {% endif %}
+        {% block content %}
+        {% endblock %}
     </body>
 </html>

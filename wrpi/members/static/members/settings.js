@@ -1,9 +1,9 @@
-function auth(form) {
+function settings(form) {
     $.post(".", $(form).serialize(), function(json) {
         if (json.login) {
-            window.location = "home";
+            $("#message").html("Saved.");
         } else {
-            $("#message").html("Invalid credentials.");
+            $("#message").html("Invalid fields.");
         }
     }, "json");
 }
