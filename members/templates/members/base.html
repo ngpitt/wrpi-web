@@ -10,13 +10,7 @@
     <body>
         {% if user.is_authenticated %}
         <div id="menu">
-            <table>
-                <tr>
-                    <td><a href="../home">Home</a></td> 
-                    <td><a href="../settings">Settings</a></td>
-                    <td><a href="../logout">Logout</a></td>
-                </tr>
-            </table>
+            <a href="../home">Home</a> | <a href="../settings">Settings</a> | <a href="../logout">Logout</a>
         </div>
         {% endif %}
         {% block content %}
