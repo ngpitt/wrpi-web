@@ -1,0 +1,164 @@
+{% extends 'public/base.html' %}
+
+{% block title %}Schedule{% endblock %}
+
+{% block script %}schedule.js{% endblock %}
+
+{% block content %}
+    <table>
+        <tr>
+            <th>Time</th>
+            <th>Sunday</th>
+            <th>Monday</th>
+            <th>Tuesday</th>
+            <th>Wednesday</th>
+            <th>Thursday</th>
+            <th>Friday</th>
+            <th>Saturday</th>
+        </tr>
+        <tr>
+            <th>5:00 AM</th>
+            {% for show in shows.0 %}
+                <td class="{{ show.genre }} top" rowspan="{{ show.rowspan }}">{{ show.name }}<br/>{{ show.host }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <th>6:00 AM</th>
+            {% for show in shows.1 %}
+                <td class="{{ show.genre }}" rowspan="{{ show.rowspan }}">{{ show.name }}<br/>{{ show.host }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <th>7:00 AM</th>
+            {% for show in shows.2 %}
+                <td class="{{ show.genre }}" rowspan="{{ show.rowspan }}">{{ show.name }}<br/>{{ show.host }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <th>8:00 AM</th>
+            {% for show in shows.3 %}
+                <td class="{{ show.genre }}" rowspan="{{ show.rowspan }}">{{ show.name }}<br/>{{ show.host }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <th>9:00 AM</th>
+            {% for show in shows.4 %}
+                <td class="{{ show.genre }}" rowspan="{{ show.rowspan }}">{{ show.name }}<br/>{{ show.host }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <th>10:00 AM</th>
+            {% for show in shows.5 %}
+                <td class="{{ show.genre }}" rowspan="{{ show.rowspan }}">{{ show.name }}<br/>{{ show.host }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <th>11:00 AM</th>
+            {% for show in shows.6 %}
+                <td class="{{ show.genre }}" rowspan="{{ show.rowspan }}">{{ show.name }}<br/>{{ show.host }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <th>12:00 PM</th>
+            {% for show in shows.7 %}
+                <td class="{{ show.genre }}" rowspan="{{ show.rowspan }}">{{ show.name }}<br/>{{ show.host }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <th>1:00 PM</th>
+            {% for show in shows.8 %}
+                <td class="{{ show.genre }}" rowspan="{{ show.rowspan }}">{{ show.name }}<br/>{{ show.host }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <th>2:00 PM</th>
+            {% for show in shows.9 %}
+                <td class="{{ show.genre }}" rowspan="{{ show.rowspan }}">{{ show.name }}<br/>{{ show.host }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <th>3:00 PM</th>
+            {% for show in shows.10 %}
+                <td class="{{ show.genre }}" rowspan="{{ show.rowspan }}">{{ show.name }}<br/>{{ show.host }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <th>4:00 PM</th>
+            {% for show in shows.11 %}
+                <td class="{{ show.genre }}" rowspan="{{ show.rowspan }}">{{ show.name }}<br/>{{ show.host }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <th>5:00 PM</th>
+            {% for show in shows.12 %}
+                <td class="{{ show.genre }}" rowspan="{{ show.rowspan }}">{{ show.name }}<br/>{{ show.host }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <th>6:00 PM</th>
+            {% for show in shows.13 %}
+                <td class="{{ show.genre }}" rowspan="{{ show.rowspan }}">{{ show.name }}<br/>{{ show.host }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <th>7:00 PM</th>
+            {% for show in shows.14 %}
+                <td class="{{ show.genre }}" rowspan="{{ show.rowspan }}">{{ show.name }}<br/>{{ show.host }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <th>8:00 PM</th>
+            {% for show in shows.15 %}
+                <td class="{{ show.genre }}" rowspan="{{ show.rowspan }}">{{ show.name }}<br/>{{ show.host }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <th>9:00 PM</th>
+            {% for show in shows.16 %}
+                <td class="{{ show.genre }}" rowspan="{{ show.rowspan }}">{{ show.name }}<br/>{{ show.host }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <th>10:00 PM</th>
+            {% for show in shows.17 %}
+                <td class="{{ show.genre }}" rowspan="{{ show.rowspan }}">{{ show.name }}<br/>{{ show.host }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <th>11:00 PM</th>
+            {% for show in shows.18 %}
+                <td class="{{ show.genre }}" rowspan="{{ show.rowspan }}">{{ show.name }}<br/>{{ show.host }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <th>12:00 AM</th>
+            {% for show in shows.19 %}
+                <td class="{{ show.genre }}" rowspan="{{ show.rowspan }}">{{ show.name }}<br/>{{ show.host }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <th>1:00 AM</th>
+            {% for show in shows.20 %}
+                <td class="{{ show.genre }}" rowspan="{{ show.rowspan }}">{{ show.name }}<br/>{{ show.host }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <th>2:00 AM</th>
+            {% for show in shows.21 %}
+                <td class="{{ show.genre }}" rowspan="{{ show.rowspan }}">{{ show.name }}<br/>{{ show.host }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <th>3:00 AM</th>
+            {% for show in shows.22 %}
+                <td class="{{ show.genre }}" rowspan="{{ show.rowspan }}">{{ show.name }}<br/>{{ show.host }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <th>4:00 AM</th>
+            {% for show in shows.23 %}
+                <td class="{{ show.genre }} bottom" rowspan="{{ show.rowspan }}">{{ show.name }}<br/>{{ show.host }}</td>
+            {% endfor %}
+        </tr>
+    </table>
+{% endblock %}

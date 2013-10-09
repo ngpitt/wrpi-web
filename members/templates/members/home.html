@@ -1,0 +1,135 @@
+{% extends 'members/base.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block script %}home.js{% endblock %}
+
+{% block content %}
+    <div id="home">
+        <div class="info">
+            <div class="title">
+                Meetings
+            </div>
+            <hr/>
+            {% if meetings.count == 0 %}
+                No meetings on record.
+            {% else %}
+                {% for meeting in meetings %}
+                    <div class="meeting">
+                        {{ meeting.get_type_display }} meeting on {{ meeting.date }}.
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+        <div class="info">
+            <div class="title">
+                Work Hours
+            </div>
+            <hr/>
+            {% if workhours.count == 0 %}
+                No work hours on record.
+            {% else %}
+                {% for workhour in workhours %}
+                    <div class="hours">
+                        {{ workhour.hours }} hours completed on {{ workhour.date }}.
+                        <div class="description">
+                            Description: {{ workhour.description }}
+                        </div>
+                        <div class="status">
+                            Status:
+                            {% if workhour.approved %}
+                                Approved
+                            {% else %}
+                                Not approved
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+        <div class="info">
+            <div class="title">
+                Classes
+            </div>
+            <hr/>
+            {% if classes.count == 0 %}
+                No classes on record.
+            {% else %}
+                {% for class in classes %}
+                <div class="class">
+                    {{ class.get_type_display }} class on {{ class.date }}.
+                </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+        <div class="info">
+            <div class="title">
+                Exams
+            </div>
+            <hr/>
+            {% if exams.count == 0 %}
+                No exams on record.
+            {% else %}
+                {% for exam in exams %}
+                    <div class="exam">
+                        {% if exam.passed %}
+                            Passed
+                        {% else %}
+                            Failed
+                        {% endif %}
+                        a {{ exam.get_type_display }} exam on {{ exam.date }}.
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+        <div class="info">
+            <div class="title">
+                Shadows
+            </div>
+            <hr/>
+            {% if shadows.count == 0 %}
+                No shadows on record.
+            {% else %}
+                {% for shadow in shadows %}
+                    <div class="shadow">
+                        {{ shadow.show.name }} on {{ shadow.date }}.
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+        <div class="info">
+            <div class="title">
+                Shows
+            </div>
+            <hr/>
+            {% if shows.count == 0 %}
+                No shows on record.
+            {% else %}
+                {% for show in shows %}
+                   <div class="show">
+                       {{ show.name }} with {{ show.host }} on {{ show.get_day_display }} from {{ show.get_start_time_display }} to {{ show.get_end_time_display }}.
+                        <div class="genre">
+                            Genre: {{ show.get_genre_display }}
+                        </div>
+                        <div class="description">
+                            Description: {{ show.description }}
+                        </div>
+                        <div class="status">
+                            Status:
+                            {% if show.approved %}
+                                Approved
+                                {% if show.scheduled %}
+                                    and scheduled
+                                {% else %}
+                                    but not scheduled
+                                {% endif %}
+                            {% else %}
+                                Pending and not scheduled
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

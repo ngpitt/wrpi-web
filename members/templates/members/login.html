@@ -1,0 +1,18 @@
+{% extends 'members/base.html' %}
+
+{% block title %}Login{% endblock %}
+
+{% block script %}login.js{% endblock %}
+
+{% block content %}
+    <div id="login">
+        <form onSubmit="auth(this); return false;">
+            {% csrf_token %} 
+            <table>
+                {{ form.as_table }}
+            </table>
+            <input type="submit" value="Login"/>
+        </form>
+        <div id="message"></div>
+    </div>
+{% endblock %}
