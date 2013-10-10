@@ -13,6 +13,12 @@ th {
 td {
     text-align: left;
 }
+input[type="submit"] {
+    margin: 5px;
+}
+.content {
+    display: none;
+}
 #menu {
     margin-bottom: 10px;
 }
@@ -23,7 +29,5 @@ td {
 }
 .info .title {
     font-weight: bold;
-}
-input[type="submit"] {
-    margin: 5px;
+    cursor: pointer;
 }

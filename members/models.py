@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 class MeetingAttendance(models.Model):
     MEETINGS = (
         (0, 'General'),
-        (1, 'Ecomm'),
+        (1, 'E-Comm'),
     )
     member = models.ForeignKey(User)
     type = models.IntegerField(max_length=1, choices=MEETINGS)
@@ -50,47 +50,78 @@ class Show(models.Model):
     )
     TIMES = (
         (0, '5:00 AM'),
-        (1, '6:00 AM'),
-        (2, '7:00 AM'),
-        (3, '8:00 AM'),
-        (4, '9:00 AM'),
-        (5, '10:00 AM'),
-        (6, '11:00 AM'),
-        (7, '12:00 PM'),
-        (8, '1:00 PM'),
-        (9, '2:00 PM'),
-        (10, '3:00 PM'),
-        (11, '4:00 PM'),
-        (12, '5:00 PM'),
-        (13, '6:00 PM'),
-        (14, '7:00 PM'),
-        (15, '8:00 PM'),
-        (16, '9:00 PM'),
-        (17, '10:00 PM'),
-        (18, '11:00 PM'),
-        (19, '12:00 AM'),
-        (20, '1:00 AM'),
-        (21, '2:00 AM'),
-        (22, '3:00 AM'),
-        (23, '4:00 AM'),
+        (1, '5:30 AM'),
+        (2, '6:00 AM'),
+        (3, '6:30 AM'),
+        (4, '7:00 AM'),
+        (5, '7:30 AM'),
+        (6, '8:00 AM'),
+        (7, '8:30 AM'),
+        (8, '9:00 AM'),
+        (9, '9:30 AM'),
+        (10, '10:00 AM'),
+        (11, '10:30 AM'),
+        (12, '11:00 AM'),
+        (13, '11:30 AM'),
+        (14, '12:00 PM'),
+        (15, '12:30 PM'),
+        (16, '1:00 PM'),
+        (17, '1:30 PM'),
+        (18, '2:00 PM'),
+        (19, '2:30 PM'),
+        (20, '3:00 PM'),
+        (21, '3:30 PM'),
+        (22, '4:00 PM'),
+        (23, '4:30 PM'),
+        (24, '5:00 PM'),
+        (25, '5:30 PM'),
+        (26, '6:00 PM'),
+        (27, '6:30 PM'),
+        (28, '7:00 PM'),
+        (29, '7:30 PM'),
+        (30, '8:00 PM'),
+        (31, '8:30 PM'),
+        (32, '9:00 PM'),
+        (33, '9:30 PM'),
+        (34, '10:00 PM'),
+        (35, '10:30 PM'),
+        (36, '11:00 PM'),
+        (37, '11:30 PM'),
+        (38, '12:00 AM'),
+        (39, '12:30 AM'),
+        (40, '1:00 AM'),
+        (41, '1:30 AM'),
+        (42, '2:00 AM'),
+        (43, '2:30 AM'),
+        (44, '3:00 AM'),
+        (45, '3:30 AM'),
+        (46, '4:00 AM'),
+        (47, '4:30 AM'),
+        (48, '5:00 AM'),
     )
     GENRES = (
-        (0, 'Satellite Program'),
+        (0, 'External Programming'),
         (1, 'Variety'),
-        (2, 'News/Talk Radio'),
-        (3, 'Rock'),
-        (4, 'Indie/Electronic'),
-        (5, 'Jazz/Blues'),
-        (6, 'Hip Hop/Reggae/Funk'),
-        (7, 'Folk/Americana/Jam Band'),
-        (8, 'Religious/Spiritual/Cultural'),
+        (2, 'Rock/Pop'),
+        (3, 'Electronic'),
+        (4, 'Metal'),
+        (5, 'Alternative/Punk'),
+        (6, 'Jazz'),
+        (7, 'Blues'),
+        (8, 'Classical'),
+        (9, 'Experimental'),
+        (10, 'Folk/Bluegrass/Roots'),
+        (11, 'Hip Hop/Reggae/Funk'),
+        (12, 'Religious/Spiritual/Cultural'),
+        (13, 'News/Talk Radio'),
     )
     member = models.ForeignKey(User)
     name = models.CharField(max_length=64)
     host = models.CharField(max_length=64)
     description = models.TextField()
     genre = models.IntegerField(max_length=1, choices=GENRES)
-    day = models.IntegerField(max_length=1, choices=DAYS)
+    start_day = models.IntegerField(max_length=1, choices=DAYS)
+    end_day = models.IntegerField(max_length=1, choices=DAYS)
     start_time = models.IntegerField(max_length=2, choices=TIMES)
     end_time = models.IntegerField(max_length=2, choices=TIMES)
     approved = models.BooleanField()
@@ -102,3 +133,4 @@ class Shadow(models.Model):
     member = models.ForeignKey(User)
     show = models.ForeignKey(Show)
     date = models.DateField()
+    approved = models.BooleanField()

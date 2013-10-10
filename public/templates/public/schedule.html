@@ -7,7 +7,7 @@
 {% block content %}
     <table id="schedule">
         <tr>
-            <th class="times">Time</th>
+            <th></th>
             <th>Sunday</th>
             <th>Monday</th>
             <th>Tuesday</th>
@@ -16,317 +16,44 @@
             <th>Friday</th>
             <th>Saturday</th>
         </tr>
-        <tr>
-            <th class="times">5:00 AM</th>
-            {% for show in shows.0 %}
-                <td class="{{ show.genre }} top" rowspan="{{ show.rowspan }}">
-                    <div class="title">
-                        {{ show.name }}
-                    </div>
-                    <div class="host">
-                        {{ show.host }}
-                    </div>
-                </td>
-            {% endfor %}
-        </tr>
-        <tr>
-            <th class="times">6:00 AM</th>
-            {% for show in shows.1 %}
-                <td class="{{ show.genre }}" rowspan="{{ show.rowspan }}">
-                    <div class="title">
-                        {{ show.name }}
-                    </div>
-                    <div class="host">
-                        {{ show.host }}
-                    </div>
-                </td>
-            {% endfor %}
-        </tr>
-        <tr>
-            <th class="times">7:00 AM</th>
-            {% for show in shows.2 %}
-                <td class="{{ show.genre }}" rowspan="{{ show.rowspan }}">
-                    <div class="title">
-                        {{ show.name }}
-                    </div>
-                    <div class="host">
-                        {{ show.host }}
-                    </div>
-                </td>
-            {% endfor %}
-        </tr>
-        <tr>
-            <th class="times">8:00 AM</th>
-            {% for show in shows.3 %}
-                <td class="{{ show.genre }}" rowspan="{{ show.rowspan }}">
-                    <div class="title">
-                        {{ show.name }}
-                    </div>
-                    <div class="host">
-                        {{ show.host }}
-                    </div>
-                </td>
-            {% endfor %}
-        </tr>
-        <tr>
-            <th class="times">9:00 AM</th>
-            {% for show in shows.4 %}
-                <td class="{{ show.genre }}" rowspan="{{ show.rowspan }}">
-                    <div class="title">
-                        {{ show.name }}
-                    </div>
-                    <div class="host">
-                        {{ show.host }}
-                    </div>
-                </td>
-            {% endfor %}
-        </tr>
-        <tr>
-            <th class="times">10:00 AM</th>
-            {% for show in shows.5 %}
-                <td class="{{ show.genre }}" rowspan="{{ show.rowspan }}">
-                    <div class="title">
-                        {{ show.name }}
-                    </div>
-                    <div class="host">
-                        {{ show.host }}
-                    </div>
-                </td>
-            {% endfor %}
-        </tr>
-        <tr>
-            <th class="times">11:00 AM</th>
-            {% for show in shows.6 %}
-                <td class="{{ show.genre }}" rowspan="{{ show.rowspan }}">
-                    <div class="title">
-                        {{ show.name }}
-                    </div>
-                    <div class="host">
-                        {{ show.host }}
-                    </div>
-                </td>
-            {% endfor %}
-        </tr>
-        <tr>
-            <th class="times">12:00 PM</th>
-            {% for show in shows.7 %}
-                <td class="{{ show.genre }}" rowspan="{{ show.rowspan }}">
-                    <div class="title">
-                        {{ show.name }}
-                    </div>
-                    <div class="host">
-                        {{ show.host }}
-                    </div>
-                </td>
-            {% endfor %}
-        </tr>
-        <tr>
-            <th class="times">1:00 PM</th>
-            {% for show in shows.8 %}
-                <td class="{{ show.genre }}" rowspan="{{ show.rowspan }}">
-                    <div class="title">
-                        {{ show.name }}
-                    </div>
-                    <div class="host">
-                        {{ show.host }}
-                    </div>
-                </td>
-            {% endfor %}
-        </tr>
-        <tr>
-            <th class="times">2:00 PM</th>
-            {% for show in shows.9 %}
-                <td class="{{ show.genre }}" rowspan="{{ show.rowspan }}">
-                    <div class="title">
-                        {{ show.name }}
-                    </div>
-                    <div class="host">
-                        {{ show.host }}
-                    </div>
-                </td>
-            {% endfor %}
-        </tr>
-        <tr>
-            <th class="times">3:00 PM</th>
-            {% for show in shows.10 %}
-                <td class="{{ show.genre }}" rowspan="{{ show.rowspan }}">
-                    <div class="title">
-                        {{ show.name }}
-                    </div>
-                    <div class="host">
-                        {{ show.host }}
-                    </div>
-                </td>
-            {% endfor %}
-        </tr>
-        <tr>
-            <th class="times">4:00 PM</th>
-            {% for show in shows.11 %}
-                <td class="{{ show.genre }}" rowspan="{{ show.rowspan }}">
-                    <div class="title">
-                        {{ show.name }}
-                    </div>
-                    <div class="host">
-                        {{ show.host }}
-                    </div>
-                </td>
-            {% endfor %}
-        </tr>
-        <tr>
-            <th class="times">5:00 PM</th>
-            {% for show in shows.12 %}
-                <td class="{{ show.genre }}" rowspan="{{ show.rowspan }}">
-                    <div class="title">
-                        {{ show.name }}
-                    </div>
-                    <div class="host">
-                        {{ show.host }}
-                    </div>
-                </td>
-            {% endfor %}
-        </tr>
-        <tr>
-            <th class="times">6:00 PM</th>
-            {% for show in shows.13 %}
-                <td class="{{ show.genre }}" rowspan="{{ show.rowspan }}">
-                    <div class="title">
-                        {{ show.name }}
-                    </div>
-                    <div class="host">
-                        {{ show.host }}
-                    </div>
-                </td>
-            {% endfor %}
-        </tr>
-        <tr>
-            <th class="times">7:00 PM</th>
-            {% for show in shows.14 %}
-                <td class="{{ show.genre }}" rowspan="{{ show.rowspan }}">
-                    <div class="title">
-                        {{ show.name }}
-                    </div>
-                    <div class="host">
-                        {{ show.host }}
-                    </div>
-                </td>
-            {% endfor %}
-        </tr>
-        <tr>
-            <th class="times">8:00 PM</th>
-            {% for show in shows.15 %}
-                <td class="{{ show.genre }}" rowspan="{{ show.rowspan }}">
-                    <div class="title">
-                        {{ show.name }}
-                    </div>
-                    <div class="host">
-                        {{ show.host }}
-                    </div>
-                </td>
-            {% endfor %}
-        </tr>
-        <tr>
-            <th class="times">9:00 PM</th>
-            {% for show in shows.16 %}
-                <td class="{{ show.genre }}" rowspan="{{ show.rowspan }}">
-                    <div class="title">
-                        {{ show.name }}
-                    </div>
-                    <div class="host">
-                        {{ show.host }}
-                    </div>
-                </td>
-            {% endfor %}
-        </tr>
-        <tr>
-            <th class="times">10:00 PM</th>
-            {% for show in shows.17 %}
-                <td class="{{ show.genre }}" rowspan="{{ show.rowspan }}">
-                    <div class="title">
-                        {{ show.name }}
-                    </div>
-                    <div class="host">
-                        {{ show.host }}
-                    </div>
-                </td>
-            {% endfor %}
-        </tr>
-        <tr>
-            <th class="times">11:00 PM</th>
-            {% for show in shows.18 %}
-                <td class="{{ show.genre }}" rowspan="{{ show.rowspan }}">
-                    <div class="title">
-                        {{ show.name }}
-                    </div>
-                    <div class="host">
-                        {{ show.host }}
-                    </div>
-                </td>
-            {% endfor %}
-        </tr>
-        <tr>
-            <th class="times">12:00 AM</th>
-            {% for show in shows.19 %}
-                <td class="{{ show.genre }}" rowspan="{{ show.rowspan }}">
-                    <div class="title">
-                        {{ show.name }}
-                    </div>
-                    <div class="host">
-                        {{ show.host }}
-                    </div>
-                </td>
-            {% endfor %}
-        </tr>
-        <tr>
-            <th class="times">1:00 AM</th>
-            {% for show in shows.20 %}
-                <td class="{{ show.genre }}" rowspan="{{ show.rowspan }}">
-                    <div class="title">
-                        {{ show.name }}
-                    </div>
-                    <div class="host">
-                        {{ show.host }}
-                    </div>
-                </td>
-            {% endfor %}
-        </tr>
-        <tr>
-            <th class="times">2:00 AM</th>
-            {% for show in shows.21 %}
-                <td class="{{ show.genre }}" rowspan="{{ show.rowspan }}">
-                    <div class="title">
-                        {{ show.name }}
-                    </div>
-                    <div class="host">
-                        {{ show.host }}
-                    </div>
-                </td>
-            {% endfor %}
-        </tr>
-        <tr>
-            <th class="times">3:00 AM</th>
-            {% for show in shows.22 %}
-                <td class="{{ show.genre }}" rowspan="{{ show.rowspan }}">
-                    <div class="title">
-                        {{ show.name }}
-                    </div>
-                    <div class="host">
-                        {{ show.host }}
-                    </div>
-                </td>
-            {% endfor %}
-        </tr>
-        <tr>
-            <th class="times">4:00 AM</th>
-            {% for show in shows.23 %}
-                <td class="{{ show.genre }} bottom" rowspan="{{ show.rowspan }}">
-                    <div class="title">
-                        {{ show.name }}
-                    </div>
-                    <div class="host">
-                        {{ show.host }}
-                    </div>
-                </td>
-            {% endfor %}
-        </tr>
+        {% for time_slot in schedule %}
+            <tr>
+                <th class="time">{{ time_slot.time }}</th>
+                {% if forloop.first %}
+                    {% for show in time_slot.shows %}
+                        <td class="{{ show.genre }} top" rowspan="{{ show.row_span }}">
+                           <div class="title">
+                                {{ show.name }}
+                           </div>
+                            <div class="host">
+                                {{ show.host }}
+                            </div>
+                        </td>
+                   {% endfor %}
+                {% elif forloop.last %}
+                     {% for show in time_slot.shows %}
+                        <td class="{{ show.genre }} bottom" rowspan="{{ show.row_span }}">
+                            <div class="title">
+                                {{ show.name }}
+                           </div>
+                            <div class="host">
+                                {{ show.host }}
+                            </div>
+                        </td>
+                   {% endfor %}
+                {% else %}
+                     {% for show in time_slot.shows %}
+                        <td class="{{ show.genre }}" rowspan="{{ show.row_span }}">
+                            <div class="title">
+                                {{ show.name }}
+                           </div>
+                            <div class="host">
+                                {{ show.host }}
+                            </div>
+                        </td>
+                   {% endfor %}
+                {% endif %}
+           </tr>
+        {% endfor %}
     </table>
 {% endblock %}

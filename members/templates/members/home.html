@@ -8,29 +8,42 @@
     <div id="home">
         <div class="info">
             <div class="title">
-                Meetings
+                Meetings -
+                {% if requirements.general_meeting and requirements.ecomm_meeting %}
+                    Completed
+                {% else %}
+                    Not completed
+                {% endif %}
             </div>
             <hr/>
-            {% if meetings.count == 0 %}
-                No meetings on record.
-            {% else %}
-                {% for meeting in meetings %}
-                    <div class="meeting">
+            <div class="content">
+                {% if meetings.count == 0 %}
+                    No meetings on record.
+                  {% else %}
+                    {% for meeting in meetings %}
                         {{ meeting.get_type_display }} meeting on {{ meeting.date }}.
-                    </div>
-                {% endfor %}
-            {% endif %}
+                        <hr/>
+                   {% endfor %}
+                {% endif %}
+            </div>
         </div>
         <div class="info">
             <div class="title">
-                Work Hours
+                Work Hours -
+                {% if requirements.workhours >= 7 %}
+                    Completed for hosting a show
+                {% elif requirements.workhours >= 2 %}
+                    Completed for membership
+                {% else %}
+                    Not completed
+                {% endif %}
             </div>
             <hr/>
-            {% if workhours.count == 0 %}
-                No work hours on record.
-            {% else %}
-                {% for workhour in workhours %}
-                    <div class="hours">
+            <div class="content">
+                {% if workhours.count == 0 %}
+                    No work hours on record.
+                {% else %}
+                    {% for workhour in workhours %}
                         {{ workhour.hours }} hours completed on {{ workhour.date }}.
                         <div class="description">
                             Description: {{ workhour.description }}
@@ -40,74 +53,101 @@
                             {% if workhour.approved %}
                                 Approved
                             {% else %}
-                                Not approved
+                                Pending approval
                             {% endif %}
                         </div>
-                    </div>
-                {% endfor %}
-            {% endif %}
+                        <hr/>
+                    {% endfor %}
+                {% endif %}
+            </div>
         </div>
         <div class="info">
             <div class="title">
-                Classes
+                Classes -
+                {% if requirements.tech_class and requirements.policy_class and requirements.logs_class %}
+                    Completed
+                {% else %}
+                    Not completed
+                {% endif %}
             </div>
             <hr/>
-            {% if classes.count == 0 %}
-                No classes on record.
-            {% else %}
-                {% for class in classes %}
-                <div class="class">
-                    {{ class.get_type_display }} class on {{ class.date }}.
-                </div>
-                {% endfor %}
-            {% endif %}
+            <div class="content">
+                {% if classes.count == 0 %}
+                    No classes on record.
+                {% else %}
+                    {% for class in classes %}
+                        {{ class.get_type_display }} class on {{ class.date }}.
+                    {% endfor %}
+                     <hr/>
+                {% endif %}
+            </div>
         </div>
         <div class="info">
             <div class="title">
-                Exams
+                Exams -
+                {% if requirements.tech_exam and requirements.policy_exam and requirements.logs_exam %}
+                    Completed
+                {% else %}
+                    Not completed
+                {% endif %}
             </div>
             <hr/>
-            {% if exams.count == 0 %}
-                No exams on record.
-            {% else %}
-                {% for exam in exams %}
-                    <div class="exam">
+            <div class="content">
+                {% if exams.count == 0 %}
+                    No exams on record.
+                {% else %}
+                    {% for exam in exams %}
                         {% if exam.passed %}
                             Passed
                         {% else %}
                             Failed
                         {% endif %}
                         a {{ exam.get_type_display }} exam on {{ exam.date }}.
-                    </div>
-                {% endfor %}
-            {% endif %}
+                        <hr/>
+                    {% endfor %}
+                {% endif %}
+            </div>
         </div>
         <div class="info">
             <div class="title">
-                Shadows
+                Shadows -
+                {% if requirements.shadows >= 2 %}
+                    Completed
+                {% else %}
+                    Not completed
+                {% endif %}
             </div>
             <hr/>
-            {% if shadows.count == 0 %}
-                No shadows on record.
-            {% else %}
-                {% for shadow in shadows %}
-                    <div class="shadow">
+            <div class="content">
+                {% if shadows.count == 0 %}
+                    No shadows on record.
+                {% else %}
+                    {% for shadow in shadows %}
                         {{ shadow.show.name }} on {{ shadow.date }}.
-                    </div>
-                {% endfor %}
-            {% endif %}
+                        <div class="status">
+                            Status:
+                            {% if shadow.approved %}
+                                Approved
+                            {% else %}
+                                Pending approval
+                            {% endif %}
+                        </div>
+                        <hr/>
+                    {% endfor %}
+                {% endif %}
+            </div>
         </div>
         <div class="info">
             <div class="title">
                 Shows
             </div>
             <hr/>
-            {% if shows.count == 0 %}
-                No shows on record.
-            {% else %}
-                {% for show in shows %}
-                   <div class="show">
-                       {{ show.name }} with {{ show.host }} on {{ show.get_day_display }} from {{ show.get_start_time_display }} to {{ show.get_end_time_display }}.
+            <div class="content">
+                {% if shows.count == 0 %}
+                    No shows on record.
+                {% else %}
+                    {% for show in shows %}
+                        {{ show.name }} with {{ show.host }} from {{ show.get_start_time_display }} on {{ show.get_start_day_display }} to {{ show.get_end_time_display }} on {{ show.get_end_day_display }}.
                         <div class="genre">
                             Genre: {{ show.get_genre_display }}
                         </div>
@@ -124,12 +164,13 @@
                                     but not scheduled
                                 {% endif %}
                             {% else %}
-                                Pending and not scheduled
+                                Pending approval
                             {% endif %}
                         </div>
-                    </div>
-                {% endfor %}
-            {% endif %}
+                    <hr/>
+                    {% endfor %}
+                {% endif %}
+            </div>
         </div>
     </div>
 {% endblock %}

@@ -14,7 +14,7 @@ class ExamAdmin(admin.ModelAdmin):
     list_display = ('member', 'type', 'date', 'passed')
 
 class ShadowAdmin(admin.ModelAdmin):
-    list_display = ('member', 'show_name', 'date')
+    list_display = ('member', 'show_name', 'date', 'approved')
     def show_name(self, obj):
         return obj.show.name
     show_name.admin_order_field = 'show__name'
