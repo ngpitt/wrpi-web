@@ -3,9 +3,9 @@
     <head>
         <title>WRPI Members - {% block title %}{% endblock %}</title>
         <meta charset="utf-8"/>
-        <link rel="stylesheet" href="{{ STATIC_URL }}members/style.css">
-        <script src="{{ STATIC_URL }}jquery/jquery-1.9.1.js"></script>
-        <script src="{{ STATIC_URL }}members/{% block script %}{% endblock %}"></script>
+        <link rel="stylesheet" href="{{ STATIC_URL }}members/css/style.css">
+        <script src="{{ STATIC_URL }}members/js/jquery.js"></script>
+        {% block script %}{% endblock %}
     </head>
     <body>
         {% if user.is_authenticated %}
@@ -13,7 +13,6 @@
             <a href="../home">Home</a> | <a href="../settings">Settings</a> | <a href="../logout">Logout</a>
         </div>
         {% endif %}
-        {% block content %}
-        {% endblock %}
+        {% block content %}{% endblock %}
     </body>
 </html>

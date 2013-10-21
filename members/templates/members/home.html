@@ -1,176 +1,227 @@
 {% extends 'members/base.html' %}
 
-{% block title %}Home{% endblock %}
+{% block title %}
+Home
+{% endblock %}
 
-{% block script %}home.js{% endblock %}
+{% block script %}
+<script>
+    $(function() {
+        $(".item").click(function() {
+            $(this).find(".list").slideToggle("fast");
+            arrow = $(this).find(".arrow");
+            if (arrow.attr("src") === "{{ STATIC_URL}}members/img/down.png") {
+                arrow.attr("src", "{{ STATIC_URL }}members/img/up.png");
+            } else {
+                arrow.attr("src", "{{ STATIC_URL }}members/img/down.png");
+            }
+        });
+    });
+</script>
+{% endblock %}
 
 {% block content %}
-    <div id="home">
-        <div class="info">
-            <div class="title">
-                Meetings -
-                {% if requirements.general_meeting and requirements.ecomm_meeting %}
-                    Completed
-                {% else %}
-                    Not completed
-                {% endif %}
-            </div>
-            <hr/>
-            <div class="content">
-                {% if meetings.count == 0 %}
-                    No meetings on record.
-                  {% else %}
-                    {% for meeting in meetings %}
-                        {{ meeting.get_type_display }} meeting on {{ meeting.date }}.
-                        <hr/>
-                   {% endfor %}
-                {% endif %}
-            </div>
-        </div>
-        <div class="info">
-            <div class="title">
-                Work Hours -
-                {% if requirements.workhours >= 7 %}
-                    Completed for hosting a show
-                {% elif requirements.workhours >= 2 %}
-                    Completed for membership
-                {% else %}
-                    Not completed
-                {% endif %}
-            </div>
-            <hr/>
-            <div class="content">
-                {% if workhours.count == 0 %}
-                    No work hours on record.
-                {% else %}
-                    {% for workhour in workhours %}
-                        {{ workhour.hours }} hours completed on {{ workhour.date }}.
-                        <div class="description">
-                            Description: {{ workhour.description }}
-                        </div>
-                        <div class="status">
-                            Status:
-                            {% if workhour.approved %}
-                                Approved
-                            {% else %}
-                                Pending approval
-                            {% endif %}
-                        </div>
-                        <hr/>
-                    {% endfor %}
-                {% endif %}
-            </div>
-        </div>
-        <div class="info">
-            <div class="title">
-                Classes -
-                {% if requirements.tech_class and requirements.policy_class and requirements.logs_class %}
-                    Completed
-                {% else %}
-                    Not completed
-                {% endif %}
-            </div>
-            <hr/>
-            <div class="content">
-                {% if classes.count == 0 %}
-                    No classes on record.
-                {% else %}
-                    {% for class in classes %}
-                        {{ class.get_type_display }} class on {{ class.date }}.
-                    {% endfor %}
-                     <hr/>
-                {% endif %}
-            </div>
-        </div>
-        <div class="info">
-            <div class="title">
-                Exams -
-                {% if requirements.tech_exam and requirements.policy_exam and requirements.logs_exam %}
-                    Completed
-                {% else %}
-                    Not completed
-                {% endif %}
-            </div>
-            <hr/>
-            <div class="content">
-                {% if exams.count == 0 %}
-                    No exams on record.
-                {% else %}
-                    {% for exam in exams %}
-                        {% if exam.passed %}
-                            Passed
-                        {% else %}
-                            Failed
-                        {% endif %}
-                        a {{ exam.get_type_display }} exam on {{ exam.date }}.
-                        <hr/>
-                    {% endfor %}
-                {% endif %}
-            </div>
-        </div>
-        <div class="info">
-            <div class="title">
-                Shadows -
-                {% if requirements.shadows >= 2 %}
-                    Completed
-                {% else %}
-                    Not completed
-                {% endif %}
-            </div>
-            <hr/>
-            <div class="content">
-                {% if shadows.count == 0 %}
-                    No shadows on record.
-                {% else %}
-                    {% for shadow in shadows %}
-                        {{ shadow.show.name }} on {{ shadow.date }}.
-                        <div class="status">
-                            Status:
-                            {% if shadow.approved %}
-                                Approved
-                            {% else %}
-                                Pending approval
-                            {% endif %}
-                        </div>
-                        <hr/>
-                    {% endfor %}
-                {% endif %}
-            </div>
-        </div>
-        <div class="info">
-            <div class="title">
-                Shows
-            </div>
-            <hr/>
-            <div class="content">
-                {% if shows.count == 0 %}
-                    No shows on record.
-                {% else %}
-                    {% for show in shows %}
-                        {{ show.name }} with {{ show.host }} from {{ show.get_start_time_display }} on {{ show.get_start_day_display }} to {{ show.get_end_time_display }} on {{ show.get_end_day_display }}.
-                        <div class="genre">
-                            Genre: {{ show.get_genre_display }}
-                        </div>
-                        <div class="description">
-                            Description: {{ show.description }}
-                        </div>
-                        <div class="status">
-                            Status:
-                            {% if show.approved %}
-                                Approved
-                                {% if show.scheduled %}
-                                    and scheduled
-                                {% else %}
-                                    but not scheduled
-                                {% endif %}
-                            {% else %}
-                                Pending approval
-                            {% endif %}
-                        </div>
-                    <hr/>
-                    {% endfor %}
-                {% endif %}
-            </div>
-        </div>
+<div id="status">
+    Membership:
+    {% if status.membership.valid %}
+        <span class="green">Valid through {{ status.membership.expiration }}</span>
+    {% else %}
+        <span class="red">Invalid</span>
+    {% endif %}
+    | Clearance:
+    {% if status.clearance.valid %}
+        <span class="green">Valid through {{ status.clearance.expiration }}</span>
+    {% else %}
+        <span class="red">Invalid</span>
+    {% endif %}
+    | Host:
+    {% if status.host.valid %}
+        <span class="green">Valid through {{ status.host.expiration }}</span>
+    {% else %}
+        <span class="red">Invalid</span>
+    {% endif %}
+</div>
+<div class="item">
+    <div class="title">
+        Meetings -
+        {% if meeting_attendance.valid %}
+            <span class="green">Completed</span>
+        {% else %}
+            <span class="red">Incomplete</span>
+        {% endif %}
+        <img class="arrow" src="{{ STATIC_URL }}members/img/down.png" alt="Arrow" width="16" height="16">
     </div>
+    <hr/>
+    <div class="list">
+        {% if meeting_attendance.list.count == 0 %}
+            No meetings on record
+          {% else %}
+            {% for item in meeting_attendance.list %}
+                Type: {{ item.get_type_display }}<br/>
+                Date: {{ item.date }}<br/>
+                {% if not item.expired %}
+                    <span class="green">Valid through {{ item.expiration }}</span>
+                {% else %}
+                    <span class="red">Expired {{ item.expiration }}</span>
+                {% endif %}
+                <hr/>
+           {% endfor %}
+        {% endif %}
+    </div>
+</div>
+<div class="item">
+    <div class="title">
+        Work Hours -
+        {% if work_hours.host.valid %}
+            <span class="green">Completed for hosting</span>
+        {% elif work_hours.membership.valid %}
+            <span class="green">Completed for membership</span>
+        {% else %}
+            <span class="red">Incomplete</span>
+        {% endif %}
+        <img class="arrow" src="{{ STATIC_URL }}members/img/down.png" alt="Arrow" width="16" height="16">
+    </div>
+    <hr/>
+    <div class="list">
+        {% if work_hours.list.count == 0 %}
+            No work hours on record
+        {% else %}
+            {% for item in work_hours.list %}
+                Hours: {{ item.hours }}<br/>
+                Date: {{ item.date }}<br/>
+                Description: {{ item.description }}<br/>
+                Status:
+                {% if item.approved %}
+                    <span class="green">Approved</span><br/>
+                    {% if not item.expired %}
+                        <span class="green">Valid through {{ item.expiration }}</span>
+                    {% else %}
+                        <span class="red">Expired {{ item.expiration }}</span>
+                    {% endif %}
+                {% else %}
+                    <span class="red">Pending approval</span>
+                {% endif %}
+                <hr/>
+            {% endfor %}
+        {% endif %}
+    </div>
+</div>
+<div class="item">
+    <div class="title">
+        Classes -
+        {% if class_attendance.valid %}
+            <span class="green">Completed</span>
+        {% else %}
+            <span class="red">Incomplete</span>
+        {% endif %}
+         <img class="arrow" src="{{ STATIC_URL }}members/img/down.png" alt="Arrow" width="16" height="16">
+   </div>
+    <hr/>
+    <div class="list">
+        {% if class_attendance.list.count == 0 %}
+            No classes on record
+        {% else %}
+            {% for item in class_attendance.list %}
+                Type: {{ item.get_type_display }}<br/>
+                Date: {{ item.date }}
+                <hr/>
+            {% endfor %}
+        {% endif %}
+    </div>
+</div>
+<div class="item">
+    <div class="title">
+        Exams -
+        {% if exams.valid %}
+            <span class="green">Completed</span>
+        {% else %}
+            <span class="red">Incomplete</span>
+        {% endif %}
+        <img class="arrow" src="{{ STATIC_URL }}members/img/down.png" alt="Arrow" width="16" height="16">
+    </div>
+    <hr/>
+    <div class="list">
+        {% if exams.list.count == 0 %}
+            No exams on record
+        {% else %}
+            {% for item in exams.list %}
+                Type: {{ item.get_type_display }}<br/>
+                Date: {{ item.date }}<br/>
+                Grade:
+                {% if item.passed %}
+                    <span class="green">Passed</span><br/>
+                    {% if not item.expired %}
+                        <span class="green">Valid through {{ item.expiration }}</span>
+                    {% else %}
+                        <span class="red">Expired {{ item.expiration }}</span>
+                    {% endif %}
+                {% else %}
+                    <span class="red">Failed</span>
+                {% endif %}
+                <hr/>
+            {% endfor %}
+        {% endif %}
+    </div>
+</div>
+<div class="item">
+    <div class="title">
+        Shadows -
+        {% if shadows.valid %}
+            <span class="green">Completed</span>
+        {% else %}
+            <span class="red">Incomplete</span>
+        {% endif %}
+       <img class="arrow" src="{{ STATIC_URL }}members/img/down.png" alt="Arrow" width="16" height="16">
+    </div>
+    <hr/>
+    <div class="list">
+        {% if shadows.list.count == 0 %}
+            No shadows on record
+        {% else %}
+            {% for item in shadows.list %}
+                Show: {{ item.show.name }} with {{ item.show.host }}<br/>
+                Date: {{ item.date }}<br/>
+                Status:
+                {% if item.approved %}
+                    <span class="green">Approved</span>
+                {% else %}
+                    <span class="red">Pending approval</span>
+                {% endif %}
+                <hr/>
+            {% endfor %}
+        {% endif %}
+    </div>
+</div>
+<div class="item">
+    <div class="title">
+        Shows
+        <img class="arrow" src="{{ STATIC_URL }}members/img/down.png" alt="Arrow" width="16" height="16">
+    </div>
+    <hr/>
+    <div class="list">
+        {% if shows.list.count == 0 %}
+            No shows on record
+        {% else %}
+            {% for item in shows.list %}
+                Show: {{ item.name }} with {{ item.host }}<br/>
+                Time: {{ item.get_start_time_display }} {{ item.get_start_day_display }} to {{ item.get_end_time_display }} {{ item.get_end_day_display }}<br/>
+                Genre: {{ item.get_genre_display }}<br/>
+                Description: {{ item.description }}<br/>
+                Status:
+                {% if item.approved %}
+                    <span class="green">Approved</span><br/>
+                {% else %}
+                    <span class="red">Pending approval</span><br/>
+                {% endif %}
+                Scheduled:
+                {% if item.scheduled %}
+                    Yes
+                {% else %}
+                    No
+                {% endif %}
+            <hr/>
+            {% endfor %}
+        {% endif %}
+    </div>
+</div>
 {% endblock %}

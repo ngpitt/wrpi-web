@@ -1,59 +1,59 @@
 {% extends 'public/base.html' %}
 
-{% block title %}Schedule{% endblock %}
-
-{% block script %}schedule.js{% endblock %}
+{% block title %}
+Schedule
+{% endblock %}
 
 {% block content %}
-    <table id="schedule">
+<table id="schedule">
+    <tr>
+        <th></th>
+        <th>Sunday</th>
+        <th>Monday</th>
+        <th>Tuesday</th>
+        <th>Wednesday</th>
+        <th>Thursday</th>
+        <th>Friday</th>
+        <th>Saturday</th>
+    </tr>
+    {% for time_slot in schedule %}
         <tr>
-            <th></th>
-            <th>Sunday</th>
-            <th>Monday</th>
-            <th>Tuesday</th>
-            <th>Wednesday</th>
-            <th>Thursday</th>
-            <th>Friday</th>
-            <th>Saturday</th>
+            <th class="time">{{ time_slot.time }}</th>
+            {% if forloop.first %}
+                {% for show in time_slot.shows %}
+                    <td class="{{ show.genre }} top" rowspan="{{ show.row_span }}">
+                        <div class="title">
+                            {{ show.name }}
+                        </div>
+                        <div class="host">
+                            {{ show.host }}
+                        </div>
+                    </td>
+                {% endfor %}
+            {% elif forloop.last %}
+                {% for show in time_slot.shows %}
+                    <td class="{{ show.genre }} bottom" rowspan="{{ show.row_span }}">
+                        <div class="title">
+                            {{ show.name }}
+                        </div>
+                        <div class="host">
+                            {{ show.host }}
+                        </div>
+                    </td>
+                {% endfor %}
+            {% else %}
+                {% for show in time_slot.shows %}
+                    <td class="{{ show.genre }}" rowspan="{{ show.row_span }}">
+                        <div class="title">
+                            {{ show.name }}
+                        </div>
+                        <div class="host">
+                            {{ show.host }}
+                        </div>
+                    </td>
+                {% endfor %}
+            {% endif %}
         </tr>
-        {% for time_slot in schedule %}
-            <tr>
-                <th class="time">{{ time_slot.time }}</th>
-                {% if forloop.first %}
-                    {% for show in time_slot.shows %}
-                        <td class="{{ show.genre }} top" rowspan="{{ show.row_span }}">
-                           <div class="title">
-                                {{ show.name }}
-                           </div>
-                            <div class="host">
-                                {{ show.host }}
-                            </div>
-                        </td>
-                   {% endfor %}
-                {% elif forloop.last %}
-                     {% for show in time_slot.shows %}
-                        <td class="{{ show.genre }} bottom" rowspan="{{ show.row_span }}">
-                            <div class="title">
-                                {{ show.name }}
-                           </div>
-                            <div class="host">
-                                {{ show.host }}
-                            </div>
-                        </td>
-                   {% endfor %}
-                {% else %}
-                     {% for show in time_slot.shows %}
-                        <td class="{{ show.genre }}" rowspan="{{ show.row_span }}">
-                            <div class="title">
-                                {{ show.name }}
-                           </div>
-                            <div class="host">
-                                {{ show.host }}
-                            </div>
-                        </td>
-                   {% endfor %}
-                {% endif %}
-           </tr>
-        {% endfor %}
-    </table>
+    {% endfor %}
+</table>
 {% endblock %}

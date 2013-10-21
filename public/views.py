@@ -7,7 +7,7 @@ class TimeSlot():
         self.time = time
         self.shows = shows
 
-class ScheduleItem():
+class TimeSlotItem():
     def __init__(self, name='', host='', genre='Empty', description='', row_span=1):
         self.name = name
         self.host = host
@@ -28,26 +28,26 @@ def schedule(request):
             if current_time == 0:
                 for show in span_shows:
                     if show.start_day < current_day and show.end_day > current_day:
-                        shows.append(ScheduleItem(show.name, show.host, show.get_genre_display, show.description, row_span=48))
+                        shows.append(TimeSlotItem(show.name, show.host, show.get_genre_display, show.description, row_span=48))
                         for time in range(shows[current_day].row_span):
                             span_mask[time][current_day] = True
                     if show.end_day == current_day:
-                        shows.append(ScheduleItem(show.name, show.host, show.get_genre_display, show.description, row_span=show.end_time))
+                        shows.append(TimeSlotItem(show.name, show.host, show.get_genre_display, show.description, row_span=show.end_time))
                         for time in range(shows[current_day].row_span):
                             span_mask[time][current_day] = True
             if not span_mask[current_time][current_day]:
                 show = Show.objects.filter(scheduled=True, start_day=current_day, start_time=current_time)
                 if show:
                     if show[0].start_day != show[0].end_day:
-                        shows.append(ScheduleItem(show[0].name, show[0].host, show[0].get_genre_display, show[0].description, row_span=48 - show[0].start_time))
+                        shows.append(TimeSlotItem(show[0].name, show[0].host, show[0].get_genre_display, show[0].description, row_span=48 - show[0].start_time))
                     else:
-                        shows.append(ScheduleItem(show[0].name, show[0].host, show[0].get_genre_display, show[0].description, row_span=show[0].end_time - show[0].start_time))
+                        shows.append(TimeSlotItem(show[0].name, show[0].host, show[0].get_genre_display, show[0].description, row_span=show[0].end_time - show[0].start_time))
                     for time in range(current_time, current_time + shows[current_day].row_span):
                         span_mask[time][current_day] = True
                 else:
-                    shows.append(ScheduleItem())
+                    shows.append(TimeSlotItem())
         if current_time % 2:
             schedule.append(TimeSlot('', shows=shows))
         else:
             schedule.append(TimeSlot(time=Show.TIMES[current_time][1], shows=shows))
-    return render(request, 'public/schedule.html', { 'schedule': schedule })
+    return render(request, 'public/schedule.html', {'schedule': schedule})

@@ -4,7 +4,6 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from json import dumps
 from datetime import date
-from dateutil.relativedelta import relativedelta
 from members.models import MeetingAttendance, WorkHour, ClassAttendance, Exam, Shadow, Show
 
 class AuthForm(forms.Form):
@@ -24,6 +23,7 @@ def jsonify(array):
 def auth(request):
     if request.user.is_authenticated():
         return redirect('home')
+
     if request.method == 'POST':
         array = {}
         array['login'] = False
@@ -34,70 +34,94 @@ def auth(request):
                 login(request, user)
                 array['login'] = True
         return jsonify(array)
-    else:
-        return render(request, 'members/login.html', { 'form': AuthForm() })
+
+    return render(request, 'members/login.html', {'form': AuthForm()})
 
 def home(request):
     if not request.user.is_authenticated():
         return redirect('login')
-    class Requirements():
-        def __init__(self):
-            self.general_meeting = False
-            self.ecomm_meeting = False
-            self.workhours = 0
-            self.tech_class = False
-            self.policy_class = False
-            self.logs_class = False
-            self.tech_exam = False
-            self.policy_exam = False
-            self.logs_exam = False
-            self.shadows = 0
-    requirements = Requirements()
-    meetings = MeetingAttendance.objects.filter(member=request.user.id)
-    for meeting in meetings:
-        if meeting.date > date.today() + relativedelta(months=-6):
-            if meeting.type == 0:
-                requirements.general_meeting = True
-            if meeting.type == 1:
-                requirements.ecomm_meeting = True
-    workhours = WorkHour.objects.filter(member=request.user.id)
-    for workhour in workhours:
-        if workhour.date > date.today() + relativedelta(months=-6) and workhour.approved:
-            requirements.workhours += workhour.hours
-    classes = ClassAttendance.objects.filter(member=request.user.id)
-    for _class in classes:
-        if _class.type == 0:
-            requirements.tech_class = True
-        if _class.type == 1:
-            requirements.policy_class = True
-        if _class.type == 2:
-            requirements.logs_class = True
-    exams = Exam.objects.filter(member=request.user.id)
-    for exam in exams:
-        if exam.date > date.today() + relativedelta(months=-6) and exam.passed:
-            if exam.type == 0:
-                requirements.tech_exam = True
-            if exam.type == 1:
-                requirements.policy_exam = True
-            if exam.type == 2:
-                requirements.logs_exam = True
-    shadows = Shadow.objects.filter(member=request.user.id)
-    for shadow in shadows:
-        if shadow.approved:
-            requirements.shadows += 1
-    shows = Show.objects.filter(member=request.user.id)
-    return render(request, 'members/home.html', { 'meetings': meetings, 'workhours': workhours, 'classes': classes, 'exams': exams, 'shadows': shadows, 'shows': shows, 'requirements': requirements })
+
+    default = date(date.today().year + 2, date.today().month, date.today().day)
+    status = {'membership': {'expiration': default}, 'clearance': {'expiration': default}, 'host': {'expiration': default}}
+
+    meeting_attendance = {'list': MeetingAttendance.objects.filter(member=request.user.id).order_by('-date')}
+    count = 0
+    for item in meeting_attendance['list']:
+        if not item.expired:
+            count += 1
+            if item.expiration < status['membership']['expiration']:
+                status['membership']['expiration'] = item.expiration
+    meeting_attendance['valid'] = True if count >=2 else False
+
+    work_hours = {'list': WorkHour.objects.filter(member=request.user.id).order_by('-date')}
+    count = 0
+    status['host']['expiration'] = status['membership']['expiration']
+    for item in work_hours['list']:
+        if item.approved and not item.expired:
+            count += item.hours
+            if count <= 2 and item.expiration < status['membership']['expiration']:
+                status['membership']['expiration'] = item.expiration
+            if count <= 7 and item.expiration < status['host']['expiration']:
+                status['host']['expiration'] = item.expiration
+    work_hours['membership'] = {'valid': True if count >=2 else False}
+    work_hours['host'] = {'valid': True if count >=7 else False}
+
+    class_attendance = {'list': ClassAttendance.objects.filter(member=request.user.id).order_by('-date')}
+    class_mask = [False for x in range(len(ClassAttendance.CLASSES))]
+    counter = 0
+    for item in class_attendance['list']:
+        if not class_mask[item.type]:
+            counter += 1
+            class_mask[item.type] = True;
+    class_attendance['valid'] = True if counter == len(ClassAttendance.CLASSES) else False
+
+    exams = {'list': Exam.objects.filter(member=request.user.id).order_by('-date')}
+    exam_mask = [False for x in range(len(Exam.EXAMS))]
+    counter = 0
+    status['clearance']['expiration'] = status['membership']['expiration']
+    for item in exams['list']:
+        if item.passed and not item.expired and not exam_mask[item.type]:
+            counter += 1
+            exam_mask[item.type] = True;
+            if counter <= len(Exam.EXAMS) and item.expiration < status['clearance']['expiration']:
+                status['clearance']['expiration'] = item.expiration
+    exams['valid'] = True if counter == len(Exam.EXAMS) else False
+
+    shadows = {'list': Shadow.objects.filter(member=request.user.id)}
+    counter = 0
+    for item in shadows['list']:
+        if item.approved:
+            counter += 1
+    shadows['valid'] = True if counter >= 2 else False
+
+    shows = {'list': Show.objects.filter(member=request.user.id).order_by('-scheduled', '-approved')}
+
+    status['membership']['valid'] = True if meeting_attendance['valid'] and work_hours['membership']['valid'] else False
+    status['clearance']['valid'] = True if status['membership']['valid'] and class_attendance['valid'] and exams['valid'] and shadows['valid'] else False
+    status['host']['valid'] = True if status['clearance']['valid'] and work_hours['host']['valid'] else False
+
+    return render(request, 'members/home.html', {'status': status, 'meeting_attendance': meeting_attendance, 'work_hours': work_hours, 'class_attendance': class_attendance, 'exams': exams, 'shadows': shadows, 'shows': shows})
 
 def settings(request):
     if not request.user.is_authenticated():
         return redirect('login')
+
     if request.method == 'POST':
         array = {}
         array['success'] = False
         form = SettingsForm(request.POST)
+        if form.is_valid():
+            user = authenticate(username=form.cleaned_data['username'], password=form.cleaned_data['password'])
+            if user is not None:
+                login(request, user)
+                array['login'] = True
+        return jsonify(array)
+
+        form = SettingsForm(request.POST)
         #if form.is_valid():
         return jsonify(array)
-    return render(request, 'members/settings.html', { 'form': SettingsForm() })
+
+    return render(request, 'members/settings.html', {'form': SettingsForm(initial={'email': request.user.email, 'first_name': request.user.first_name, 'last_name': request.user.last_name})})
 
 def deauth(request):
     logout(request)

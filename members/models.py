@@ -1,16 +1,32 @@
 from django.db import models
 from django.contrib.auth.models import User
+from datetime import date
 
-class MeetingAttendance(models.Model):
+class Expire(models.Model):
+    @property
+    def expiration(self):
+        if self.date.month <= 6:
+            return date(self.date.year, 12, 31)
+        else:
+            return date(self.date.year + 1, 6, 30)
+    @property
+    def expired(self):
+        return False if date.today() <= self.expiration else True
+
+    class Meta:
+        abstract = True
+
+class MeetingAttendance(Expire):
     MEETINGS = (
         (0, 'General'),
         (1, 'E-Comm'),
     )
+
     member = models.ForeignKey(User)
     type = models.IntegerField(max_length=1, choices=MEETINGS)
     date = models.DateField()
 
-class WorkHour(models.Model):
+class WorkHour(Expire):
     member = models.ForeignKey(User)
     hours = models.DecimalField(max_digits=3, decimal_places=2)
     date = models.DateField()
@@ -23,20 +39,26 @@ class ClassAttendance(models.Model):
         (1, 'Policy'),
         (2, 'Logs'),
     )
+
     member = models.ForeignKey(User)
     type = models.IntegerField(max_length=1, choices=CLASSES)
     date = models.DateField()
 
-class Exam(models.Model):
+class Exam(Expire):
     EXAMS = (
         (0, 'Tech'),
         (1, 'Policy'),
         (2, 'Logs'),
     )
+
     member = models.ForeignKey(User)
     type = models.IntegerField(max_length=1, choices=EXAMS)
     date = models.DateField()
     passed = models.BooleanField()
+
+    @property
+    def expiration(self):
+        return date(self.date.year + 2, self.date.month, self.date.day)
 
 class Show(models.Model):
     DAYS = (
@@ -115,6 +137,7 @@ class Show(models.Model):
         (12, 'Religious/Spiritual/Cultural'),
         (13, 'News/Talk Radio'),
     )
+
     member = models.ForeignKey(User)
     name = models.CharField(max_length=64)
     host = models.CharField(max_length=64)
@@ -126,6 +149,7 @@ class Show(models.Model):
     end_time = models.IntegerField(max_length=2, choices=TIMES)
     approved = models.BooleanField()
     scheduled = models.BooleanField()
+
     def __unicode__(self):
         return u'%s' % (self.name)
 

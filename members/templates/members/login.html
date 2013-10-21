@@ -1,18 +1,32 @@
 {% extends 'members/base.html' %}
 
-{% block title %}Login{% endblock %}
+{% block title %}
+Login
+{% endblock %}
 
-{% block script %}login.js{% endblock %}
+{% block script %}
+<script>
+    function auth(form) {
+        $.post(".", $(form).serialize(), function(json) {
+            if (json.login) {
+                window.location = "home";
+            } else {
+                $("#message").html("Invalid credentials.");
+            }
+        }, "json");
+    }
+</script>
+{% endblock %}
 
 {% block content %}
-    <div id="login">
-        <form onSubmit="auth(this); return false;">
-            {% csrf_token %} 
-            <table>
-                {{ form.as_table }}
-            </table>
-            <input type="submit" value="Login"/>
-        </form>
-        <div id="message"></div>
-    </div>
+<div id="login">
+    <form onSubmit="auth(this); return false;">
+        {% csrf_token %} 
+        <table>
+            {{ form.as_table }}
+        </table>
+        <input type="submit" value="Login"/>
+    </form>
+    <div id="message"></div>
+</div>
 {% endblock %}

@@ -1,16 +1,30 @@
 {% extends 'members/base.html' %}
 
-{% block title %}Settings{% endblock %}
+{% block title %}
+Settings
+{% endblock %}
 
-{% block script %}settings.js{% endblock %}
+{% block script %}
+<script>
+    function settings(form) {
+        $.post(".", $(form).serialize(), function(json) {
+            if (json.login) {
+                $("#message").html("Saved.");
+            } else {
+                $("#message").html("Invalid fields.");
+            }
+        }, "json");
+    }
+</script>
+{% endblock %}
 
 {% block content %}
-    <form onSubmit="settings(this); return false;">
-        {% csrf_token %} 
-        <table>
-            {{ form.as_table }}
-        </table>
-        <input type="submit" value="Save"/>
-    </form>
-    <div id="message"></div>
+<form onSubmit="settings(this); return false;">
+    {% csrf_token %} 
+    <table>
+        {{ form.as_table }}
+    </table>
+    <input type="submit" value="Save"/>
+</form>
+<div id="message"></div>
 {% endblock %}

@@ -3,12 +3,11 @@
     <head>
         <title>WRPI - {% block title %}{% endblock %}</title>
         <meta charset="utf-8"/>
-        <link rel="stylesheet" href="{{ STATIC_URL }}join/style.css">
-        <script src="{{ STATIC_URL }}jquery/jquery-1.9.1.js"></script>
-        <script src="{{ STATIC_URL }}join/{% block script %}{% endblock %}"></script>
+        <link rel="stylesheet" href="{{ STATIC_URL }}join/css/style.css">
+        <script src="{{ STATIC_URL }}join/js/jquery.js"></script>
+        {% block script %}{% endblock %}
     </head>
     <body>
-        {% block content %}
-        {% endblock %}
+        {% block content %}{% endblock %}
     </body>
 </html>
