@@ -1,10 +1,9 @@
-from django.conf.urls import patterns, url
-
-from members import views
+from django.conf.urls import patterns, include, url
+from members.views import *
 
 urlpatterns = patterns('',
-    url(r'^$|^login/', views.auth, name='login'),
-    url(r'^home/', views.home, name='home'),
-    url(r'^settings/', views.settings, name='settings'),
-    url(r'^logout/', views.deauth, name='logout'),
+    url(r'^$|^login/', auth, name='login'),
+    url(r'^home/', home, name='home'),
+    url(r'^settings/', settings, name='settings'),
+    url(r'^logout/', deauth, name='logout'),
 )

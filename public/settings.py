@@ -105,6 +105,13 @@ MIDDLEWARE_CLASSES = (
 )
 
 ROOT_URLCONF = 'public.urls'
+AUTH_USER_MODEL = 'members.Member'
+AUTHENTICATION_BACKENDS = (
+    'members.backends.EmailBackend',
+)
+EMAIL_HOST = 'localhost'
+EMAIL_PORT = '25'
+FROM_EMAIL = 'do-not-reply@wrpi.org'
 
 # Python dotted path to the WSGI application used by Django's runserver.
 WSGI_APPLICATION = 'public.wsgi.application'
@@ -127,6 +134,7 @@ INSTALLED_APPS = (
     'members',
     'join',
     'south',
+    'grappelli',
     # Uncomment the next line to enable the admin:
     'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:

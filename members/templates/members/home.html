@@ -24,19 +24,19 @@ Home
 <div id="status">
     Membership:
     {% if status.membership.valid %}
-        <span class="green">Valid through {{ status.membership.expiration }}</span>
+        <span class="green">Valid through {{ status.membership.valid_through }}</span>
     {% else %}
         <span class="red">Invalid</span>
     {% endif %}
     | Clearance:
     {% if status.clearance.valid %}
-        <span class="green">Valid through {{ status.clearance.expiration }}</span>
+        <span class="green">Valid through {{ status.clearance.valid_through }}</span>
     {% else %}
         <span class="red">Invalid</span>
     {% endif %}
-    | Host:
-    {% if status.host.valid %}
-        <span class="green">Valid through {{ status.host.expiration }}</span>
+    | Hosting:
+    {% if status.hosting.valid %}
+        <span class="green">Valid through {{ status.hosting.valid_through }}</span>
     {% else %}
         <span class="red">Invalid</span>
     {% endif %}
@@ -59,10 +59,10 @@ Home
             {% for item in meeting_attendance.list %}
                 Type: {{ item.get_type_display }}<br/>
                 Date: {{ item.date }}<br/>
-                {% if not item.expired %}
-                    <span class="green">Valid through {{ item.expiration }}</span>
+                {% if item.valid %}
+                    <span class="green">Valid through {{ item.valid_through }}</span>
                 {% else %}
-                    <span class="red">Expired {{ item.expiration }}</span>
+                    <span class="red">Expired {{ item.valid_through }}</span>
                 {% endif %}
                 <hr/>
            {% endfor %}
@@ -72,7 +72,7 @@ Home
 <div class="item">
     <div class="title">
         Work Hours -
-        {% if work_hours.host.valid %}
+        {% if work_hours.hosting.valid %}
             <span class="green">Completed for hosting</span>
         {% elif work_hours.membership.valid %}
             <span class="green">Completed for membership</span>
@@ -93,10 +93,10 @@ Home
                 Status:
                 {% if item.approved %}
                     <span class="green">Approved</span><br/>
-                    {% if not item.expired %}
-                        <span class="green">Valid through {{ item.expiration }}</span>
+                    {% if item.valid %}
+                        <span class="green">Valid through {{ item.valid_through }}</span>
                     {% else %}
-                        <span class="red">Expired {{ item.expiration }}</span>
+                        <span class="red">Expired {{ item.valid_through }}</span>
                     {% endif %}
                 {% else %}
                     <span class="red">Pending approval</span>
@@ -149,14 +149,14 @@ Home
                 Date: {{ item.date }}<br/>
                 Grade:
                 {% if item.passed %}
-                    <span class="green">Passed</span><br/>
-                    {% if not item.expired %}
-                        <span class="green">Valid through {{ item.expiration }}</span>
+                    <span class="green">Passing</span><br/>
+                    {% if item.valid %}
+                        <span class="green">Valid through {{ item.valid_through }}</span>
                     {% else %}
-                        <span class="red">Expired {{ item.expiration }}</span>
+                        <span class="red">Expired {{ item.valid_through }}</span>
                     {% endif %}
                 {% else %}
-                    <span class="red">Failed</span>
+                    <span class="red">Failing</span>
                 {% endif %}
                 <hr/>
             {% endfor %}

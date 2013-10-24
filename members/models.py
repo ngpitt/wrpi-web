@@ -1,66 +1,92 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth.models import AbstractUser
 from datetime import date
 
-class Expire(models.Model):
+class Valid(models.Model):
+
     @property
-    def expiration(self):
+    def valid_through(self):
         if self.date.month <= 6:
             return date(self.date.year, 12, 31)
         else:
             return date(self.date.year + 1, 6, 30)
     @property
-    def expired(self):
-        return False if date.today() <= self.expiration else True
+    def valid(self):
+        return True if date.today() <= self.valid_through else False
 
     class Meta:
         abstract = True
 
-class MeetingAttendance(Expire):
+class Member(AbstractUser):
+
+    rin = models.IntegerField(max_length=9, null=True, blank=True)
+    USERNAME_FIELD = 'email'
+
+    def __unicode__(self):
+        return u'%s %s' % (self.first_name, self.last_name)
+
+class MeetingAttendance(Valid):
+
     MEETINGS = (
         (0, 'General'),
         (1, 'E-Comm'),
     )
 
-    member = models.ForeignKey(User)
+    member = models.ForeignKey(Member)
     type = models.IntegerField(max_length=1, choices=MEETINGS)
     date = models.DateField()
 
-class WorkHour(Expire):
-    member = models.ForeignKey(User)
+    def __unicode__(self):
+        return u'%s on %s' % (MeetingAttendance.MEETINGS[self.type][1], self.date)
+
+class WorkHour(Valid):
+
+    member = models.ForeignKey(Member)
     hours = models.DecimalField(max_digits=3, decimal_places=2)
     date = models.DateField()
     description = models.TextField()
     approved = models.BooleanField()
 
+    def __unicode__(self):
+        return u'%s on %s' % (self.hours, self.date)
+
 class ClassAttendance(models.Model):
+
     CLASSES = (
         (0, 'Tech'),
         (1, 'Policy'),
         (2, 'Logs'),
     )
 
-    member = models.ForeignKey(User)
+    member = models.ForeignKey(Member)
     type = models.IntegerField(max_length=1, choices=CLASSES)
     date = models.DateField()
 
-class Exam(Expire):
+    def __unicode__(self):
+        return u'%s on %s' % (ClassAttendance.CLASSES[self.type][1], self.date)
+
+class Exam(Valid):
+
     EXAMS = (
         (0, 'Tech'),
         (1, 'Policy'),
         (2, 'Logs'),
     )
 
-    member = models.ForeignKey(User)
+    member = models.ForeignKey(Member)
     type = models.IntegerField(max_length=1, choices=EXAMS)
     date = models.DateField()
     passed = models.BooleanField()
 
     @property
-    def expiration(self):
+    def valid_through(self):
         return date(self.date.year + 2, self.date.month, self.date.day)
 
+    def __unicode__(self):
+        return u'%s on %s' % (Exam.EXAMS[self.type][1], self.date)
+
 class Show(models.Model):
+
     DAYS = (
         (0, 'Sunday'),
         (1, 'Monday'),
@@ -138,23 +164,29 @@ class Show(models.Model):
         (13, 'News/Talk Radio'),
     )
 
-    member = models.ForeignKey(User)
+    member = models.ForeignKey(Member)
     name = models.CharField(max_length=64)
     host = models.CharField(max_length=64)
     description = models.TextField()
     genre = models.IntegerField(max_length=1, choices=GENRES)
     start_day = models.IntegerField(max_length=1, choices=DAYS)
-    end_day = models.IntegerField(max_length=1, choices=DAYS)
     start_time = models.IntegerField(max_length=2, choices=TIMES)
+    end_day = models.IntegerField(max_length=1, choices=DAYS)
     end_time = models.IntegerField(max_length=2, choices=TIMES)
+    submitted = models.DateTimeField(auto_now_add=True)
     approved = models.BooleanField()
     scheduled = models.BooleanField()
+    shadowable = models.BooleanField()
 
     def __unicode__(self):
-        return u'%s' % (self.name)
+        return self.name
 
 class Shadow(models.Model):
-    member = models.ForeignKey(User)
+
+    member = models.ForeignKey(Member)
     show = models.ForeignKey(Show)
     date = models.DateField()
     approved = models.BooleanField()
+
+    def __unicode__(self):
+        return u'%s on %s' % (self.show, self.date)
