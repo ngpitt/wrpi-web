@@ -109,6 +109,7 @@ AUTH_USER_MODEL = 'members.Member'
 AUTHENTICATION_BACKENDS = (
     'members.backends.EmailBackend',
 )
+GRAPPELLI_ADMIN_TITLE = 'WRPI Admin'
 EMAIL_HOST = 'localhost'
 EMAIL_PORT = '25'
 FROM_EMAIL = 'do-not-reply@wrpi.org'

@@ -7,14 +7,14 @@ import base64
 
 def md5(email):
 
-    m = hashlib.md5()
+    m = hashlib.sha1()
     m.update(email)
 
     return base64.b64encode(m.digest())
 
 class AuthForm(forms.Form):
 
-    email = forms.EmailField(max_length=75, label='Email address')
+    username = forms.CharField(label='Email address')
     password = forms.CharField(widget=forms.PasswordInput)
 
 class SettingsForm(forms.Form):
@@ -23,8 +23,6 @@ class SettingsForm(forms.Form):
     first_name = forms.CharField(max_length=30)
     last_name = forms.CharField(max_length=30)
     rin = forms.IntegerField(max_value=999999999, required=False)
-    password = forms.CharField(widget=forms.PasswordInput, required=False)
-    confirmation = forms.CharField(widget=forms.PasswordInput, required=False)
 
 class MemberChangeForm(forms.ModelForm):
 
@@ -57,7 +55,7 @@ class MemberCreationForm(forms.ModelForm):
     rin = forms.IntegerField(max_value=999999999, required=False)
     password1 = forms.CharField(label=_('Password'),
         widget=forms.PasswordInput)
-    password2 = forms.CharField(label=_('Password confirmation'),
+    password2 = forms.CharField(label=_('Password (again)'),
         widget=forms.PasswordInput,
         help_text=_('Enter the same password as above, for verification.'))
 

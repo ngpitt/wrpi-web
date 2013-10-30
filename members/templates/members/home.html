@@ -1,227 +1,130 @@
 {% extends 'members/base.html' %}
 
-{% block title %}
-Home
-{% endblock %}
+{% block title %}Home{% endblock %}
 
-{% block script %}
-<script>
-    $(function() {
-        $(".item").click(function() {
-            $(this).find(".list").slideToggle("fast");
-            arrow = $(this).find(".arrow");
-            if (arrow.attr("src") === "{{ STATIC_URL}}members/img/down.png") {
-                arrow.attr("src", "{{ STATIC_URL }}members/img/up.png");
-            } else {
-                arrow.attr("src", "{{ STATIC_URL }}members/img/down.png");
-            }
-        });
-    });
-</script>
+{% block nav-bar %}
+    <li>Home</li>
 {% endblock %}
 
 {% block content %}
-<div id="status">
-    Membership:
-    {% if status.membership.valid %}
-        <span class="green">Valid through {{ status.membership.valid_through }}</span>
-    {% else %}
-        <span class="red">Invalid</span>
-    {% endif %}
-    | Clearance:
-    {% if status.clearance.valid %}
-        <span class="green">Valid through {{ status.clearance.valid_through }}</span>
-    {% else %}
-        <span class="red">Invalid</span>
-    {% endif %}
-    | Hosting:
-    {% if status.hosting.valid %}
-        <span class="green">Valid through {{ status.hosting.valid_through }}</span>
-    {% else %}
-        <span class="red">Invalid</span>
-    {% endif %}
-</div>
-<div class="item">
-    <div class="title">
-        Meetings -
-        {% if meeting_attendance.valid %}
-            <span class="green">Completed</span>
-        {% else %}
-            <span class="red">Incomplete</span>
-        {% endif %}
-        <img class="arrow" src="{{ STATIC_URL }}members/img/down.png" alt="Arrow" width="16" height="16">
-    </div>
-    <hr/>
-    <div class="list">
-        {% if meeting_attendance.list.count == 0 %}
-            No meetings on record
-          {% else %}
-            {% for item in meeting_attendance.list %}
-                Type: {{ item.get_type_display }}<br/>
-                Date: {{ item.date }}<br/>
-                {% if item.valid %}
-                    <span class="green">Valid through {{ item.valid_through }}</span>
-                {% else %}
-                    <span class="red">Expired {{ item.valid_through }}</span>
-                {% endif %}
-                <hr/>
-           {% endfor %}
-        {% endif %}
-    </div>
-</div>
-<div class="item">
-    <div class="title">
-        Work Hours -
-        {% if work_hours.hosting.valid %}
-            <span class="green">Completed for hosting</span>
-        {% elif work_hours.membership.valid %}
-            <span class="green">Completed for membership</span>
-        {% else %}
-            <span class="red">Incomplete</span>
-        {% endif %}
-        <img class="arrow" src="{{ STATIC_URL }}members/img/down.png" alt="Arrow" width="16" height="16">
-    </div>
-    <hr/>
-    <div class="list">
-        {% if work_hours.list.count == 0 %}
-            No work hours on record
-        {% else %}
-            {% for item in work_hours.list %}
-                Hours: {{ item.hours }}<br/>
-                Date: {{ item.date }}<br/>
-                Description: {{ item.description }}<br/>
-                Status:
-                {% if item.approved %}
-                    <span class="green">Approved</span><br/>
-                    {% if item.valid %}
-                        <span class="green">Valid through {{ item.valid_through }}</span>
-                    {% else %}
-                        <span class="red">Expired {{ item.valid_through }}</span>
+    <div class="g-d-c">
+        <div class="g-d-12 g-d-f">
+            <div class="grp-module">
+                <h2>Membership</h2>
+                <div class="grp-row">
+                    <a href="../meeting_attendances/"><strong>Meeting attendances</strong></a>
+                    <span class="grp-font-color-quiet">
+                        {% if meeting_attendance.valid %}
+                            Valid through {{ meeting_attendance.valid_through }}
+                        {% else %}
+                            Invalid
+                        {% endif %}
+                    </span>
+                </div>
+                <div class="grp-row">
+                    <a href="../work_hours/"><strong>Work hours</strong></a>
+                    <span class="grp-font-color-quiet">
+                        {% if work_hours.hosting.valid %}
+                            Valid through {{ work_hours.hosting.valid_through }}
+                        {% elif work_hours.membership.valid %}
+                            Valid through {{ work_hours.membership.valid_through }}
+                        {% else %}
+                            Invalid
+                        {% endif %}
+                    </span>
+                    <ul class="grp-actions">
+                        <li class="grp-add-link">
+                            <a href="../work_hours/add">Add</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="grp-row">
+                    <a href="../class_attendances/"><strong>Class attendances</strong></a>
+                    <span class="grp-font-color-quiet">
+                        {% if class_attendance.valid %}
+                            Valid
+                        {% else %}
+                            Invalid
+                        {% endif %}
+                    </span>
+                </div>
+                <div class="grp-row">
+                    <a href="../exams/"><strong>Exams</strong></a>
+                    <span class="grp-font-color-quiet">
+                        {% if exams.valid %}
+                            Valid through {{ exams.valid_through }}
+                        {% else %}
+                            Invalid
+                        {% endif %}
+                    </span>
+                </div>
+                <div class="grp-row">
+                    <a href="../Shadows/"><strong>Shadows</strong></a>
+                    <span class="grp-font-color-quiet">
+                        {% if shadows.valid %}
+                            Valid
+                        {% else %}
+                            Invalid
+                        {% endif %}
+                    </span>
+                    {% if status.membership.valid and class_attendance.valid %}
+                        <ul class="grp-actions">
+                            <li class="grp-add-link">
+                                <a href="../shadows/add">Add</a>
+                            </li>
+                        </ul>
                     {% endif %}
-                {% else %}
-                    <span class="red">Pending approval</span>
-                {% endif %}
-                <hr/>
-            {% endfor %}
-        {% endif %}
-    </div>
-</div>
-<div class="item">
-    <div class="title">
-        Classes -
-        {% if class_attendance.valid %}
-            <span class="green">Completed</span>
-        {% else %}
-            <span class="red">Incomplete</span>
-        {% endif %}
-         <img class="arrow" src="{{ STATIC_URL }}members/img/down.png" alt="Arrow" width="16" height="16">
-   </div>
-    <hr/>
-    <div class="list">
-        {% if class_attendance.list.count == 0 %}
-            No classes on record
-        {% else %}
-            {% for item in class_attendance.list %}
-                Type: {{ item.get_type_display }}<br/>
-                Date: {{ item.date }}
-                <hr/>
-            {% endfor %}
-        {% endif %}
-    </div>
-</div>
-<div class="item">
-    <div class="title">
-        Exams -
-        {% if exams.valid %}
-            <span class="green">Completed</span>
-        {% else %}
-            <span class="red">Incomplete</span>
-        {% endif %}
-        <img class="arrow" src="{{ STATIC_URL }}members/img/down.png" alt="Arrow" width="16" height="16">
-    </div>
-    <hr/>
-    <div class="list">
-        {% if exams.list.count == 0 %}
-            No exams on record
-        {% else %}
-            {% for item in exams.list %}
-                Type: {{ item.get_type_display }}<br/>
-                Date: {{ item.date }}<br/>
-                Grade:
-                {% if item.passed %}
-                    <span class="green">Passing</span><br/>
-                    {% if item.valid %}
-                        <span class="green">Valid through {{ item.valid_through }}</span>
-                    {% else %}
-                        <span class="red">Expired {{ item.valid_through }}</span>
+                </div>
+                <div class="grp-row">
+                    <a href="../shows/"><strong>Shows</strong></a>
+                    {% if status.hosting.valid %}
+                        <ul class="grp-actions">
+                            <li class="grp-add-link">
+                                <a href="../shadows/add">Add</a>
+                            </li>
+                        </ul>
                     {% endif %}
-                {% else %}
-                    <span class="red">Failing</span>
-                {% endif %}
-                <hr/>
-            {% endfor %}
-        {% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="g-d-6 g-d-l">
+            <div class="grp-module" id="grp-recent-actions-module">
+                <h2>Status</h2>
+                <div class="grp-module">
+                    <ul class="grp-listing-small">
+                        <li class="grp-row">
+                            <strong>Membership</strong>
+                            <span class="grp-font-color-quiet">
+                                {% if status.membership.valid %}
+                                    Valid through {{ status.membership.valid_through }}
+                                {% else %}
+                                    Invalid
+                                {% endif %}
+                            </span>
+                        </li>
+                        <li class="grp-row">
+                            <strong>Clearance</strong>
+                            <span class="grp-font-color-quiet">
+                                {% if status.clearance.valid %}
+                                    Valid through {{ status.clearance.valid_through }}
+                                {% else %}
+                                    Invalid
+                                {% endif %}
+                            </span>
+                        </li>
+                         <li class="grp-row">
+                            <strong>Hosting</strong>
+                            <span class="grp-font-color-quiet">
+                                {% if status.hosting.valid %}
+                                    Valid through {{ status.hosting.valid_through }}
+                                {% else %}
+                                    Invalid
+                                {% endif %}
+                            </span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
     </div>
-</div>
-<div class="item">
-    <div class="title">
-        Shadows -
-        {% if shadows.valid %}
-            <span class="green">Completed</span>
-        {% else %}
-            <span class="red">Incomplete</span>
-        {% endif %}
-       <img class="arrow" src="{{ STATIC_URL }}members/img/down.png" alt="Arrow" width="16" height="16">
-    </div>
-    <hr/>
-    <div class="list">
-        {% if shadows.list.count == 0 %}
-            No shadows on record
-        {% else %}
-            {% for item in shadows.list %}
-                Show: {{ item.show.name }} with {{ item.show.host }}<br/>
-                Date: {{ item.date }}<br/>
-                Status:
-                {% if item.approved %}
-                    <span class="green">Approved</span>
-                {% else %}
-                    <span class="red">Pending approval</span>
-                {% endif %}
-                <hr/>
-            {% endfor %}
-        {% endif %}
-    </div>
-</div>
-<div class="item">
-    <div class="title">
-        Shows
-        <img class="arrow" src="{{ STATIC_URL }}members/img/down.png" alt="Arrow" width="16" height="16">
-    </div>
-    <hr/>
-    <div class="list">
-        {% if shows.list.count == 0 %}
-            No shows on record
-        {% else %}
-            {% for item in shows.list %}
-                Show: {{ item.name }} with {{ item.host }}<br/>
-                Time: {{ item.get_start_time_display }} {{ item.get_start_day_display }} to {{ item.get_end_time_display }} {{ item.get_end_day_display }}<br/>
-                Genre: {{ item.get_genre_display }}<br/>
-                Description: {{ item.description }}<br/>
-                Status:
-                {% if item.approved %}
-                    <span class="green">Approved</span><br/>
-                {% else %}
-                    <span class="red">Pending approval</span><br/>
-                {% endif %}
-                Scheduled:
-                {% if item.scheduled %}
-                    Yes
-                {% else %}
-                    No
-                {% endif %}
-            <hr/>
-            {% endfor %}
-        {% endif %}
-    </div>
-</div>
 {% endblock %}

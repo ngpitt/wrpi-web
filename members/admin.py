@@ -8,24 +8,21 @@ from members.forms import *
 class MemberAdmin(UserAdmin):
 
     fieldsets = (
-        (None, {'fields': ('password',)}),
-        (_('Personal info'), {'fields': ('first_name', 'last_name', 'email', 'rin')}),
+        (None, {'fields': ('first_name', 'last_name', 'email', 'rin', 'password')}),
         (_('Permissions'), {'fields': ('is_active', 'is_staff', 'is_superuser',
                                        'groups', 'user_permissions')}),
-        (_('Important dates'), {'fields': ('last_login', 'date_joined')}),
-        
     )
     add_fieldsets = (
         (None, {
             'classes': ('wide',),
-            'fields': ('email', 'first_name', 'last_name', 'rin', 'password1', 'password2')}
+            'fields': ('email', 'first_name', 'last_name', 'rin', 'password1', 'password2')},
         ),
     )
     form = MemberChangeForm
     add_form = MemberCreationForm
-    list_display = ('email', 'first_name', 'last_name', 'is_active',)
+    list_display = ('email', 'first_name', 'last_name', 'is_active')
     list_filter = ()
-    search_fields = ['first_name', 'last_name',]
+    search_fields = ['first_name', 'last_name']
 
 class MeetingAttendanceAdmin(admin.ModelAdmin):
 
@@ -34,8 +31,8 @@ class MeetingAttendanceAdmin(admin.ModelAdmin):
 
     valid.boolean = True
 
-    search_fields = ['member__first_name', 'member__last_name',]
-    list_display = ('member', 'type', 'date', 'valid',)
+    search_fields = ['member__first_name', 'member__last_name']
+    list_display = ('member', 'type', 'date', 'valid')
     raw_id_fields = ('member',)
 
 class WorkHourAdmin(admin.ModelAdmin):
@@ -43,14 +40,16 @@ class WorkHourAdmin(admin.ModelAdmin):
     def valid(self, obj):
         return obj.valid
 
-    search_fields = ['member__first_name', 'member__last_name',]
-    list_display = ('member', 'hours', 'date', 'approved', 'valid',)
+    valid.boolean = True
+
+    search_fields = ['member__first_name', 'member__last_name']
+    list_display = ('member', 'hours', 'date', 'approved', 'valid')
     raw_id_fields = ('member',)
 
 class ClassAttendanceAdmin(admin.ModelAdmin):
 
-    search_fields = ['member__first_name', 'member__last_name',]
-    list_display = ('member', 'type', 'date',)
+    search_fields = ['member__first_name', 'member__last_name']
+    list_display = ('member', 'type', 'date')
     raw_id_fields = ('member',)
 
 class ExamAdmin(admin.ModelAdmin):
@@ -60,20 +59,20 @@ class ExamAdmin(admin.ModelAdmin):
 
     valid.boolean = True
 
-    search_fields = ['member__first_name', 'member__last_name',]
-    list_display = ('member', 'type', 'date', 'passed', 'valid',)
+    search_fields = ['member__first_name', 'member__last_name']
+    list_display = ('member', 'type', 'date', 'passed', 'valid')
     raw_id_fields = ('member',)
 
 class ShadowAdmin(admin.ModelAdmin):
 
-    search_fields = ['member__first_name', 'member__last_name',]
-    list_display = ('member', 'show', 'date', 'approved',)
-    raw_id_fields = ('member', 'show',)
+    search_fields = ['member__first_name', 'member__last_name', 'show__name']
+    list_display = ('member', 'show', 'date', 'approved')
+    raw_id_fields = ('member', 'show')
 
 class ShowAdmin(admin.ModelAdmin):
 
-    search_fields = ['member__first_name', 'member__last_name',]
-    list_display = ('member', 'name', 'submitted', 'approved', 'scheduled', 'shadowable',)
+    search_fields = ['member__first_name', 'member__last_name', 'name']
+    list_display = ('member', 'name', 'submitted', 'approved', 'scheduled', 'shadowable')
     raw_id_fields = ('member',)
 
 admin.site.register(Member, MemberAdmin)
