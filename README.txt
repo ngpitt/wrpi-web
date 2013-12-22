@@ -1,4 +1,4 @@
-Live demo: http://wrpi.xphysics.net
+Live demo: http://wrpi.iecfusor.com
 
 Overview - A drop-in replacement website for wrpi.org. We will targeting the public facing site and members area, including DJ clearance, scheduling, work hours, and meeting attendance.
 
