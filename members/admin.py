@@ -1,7 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.utils.translation import ugettext, ugettext_lazy as _
-from re import search
 from members.models import *
 from members.forms import *
 
@@ -20,7 +19,7 @@ class MemberAdmin(UserAdmin):
     )
     form = MemberChangeForm
     add_form = MemberCreationForm
-    list_display = ('email', 'first_name', 'last_name', 'is_active')
+    list_display = ('name', 'email', 'is_active')
     list_filter = ()
     search_fields = ['first_name', 'last_name']
 
@@ -30,7 +29,6 @@ class MeetingAttendanceAdmin(admin.ModelAdmin):
         return obj.valid
 
     valid.boolean = True
-
     search_fields = ['member__first_name', 'member__last_name']
     list_display = ('member', 'type', 'date', 'valid')
     raw_id_fields = ('member',)
@@ -41,7 +39,6 @@ class WorkHourAdmin(admin.ModelAdmin):
         return obj.valid
 
     valid.boolean = True
-
     search_fields = ['member__first_name', 'member__last_name']
     list_display = ('member', 'hours', 'date', 'approved', 'valid')
     raw_id_fields = ('member',)
@@ -58,7 +55,6 @@ class ExamAdmin(admin.ModelAdmin):
         return obj.valid
 
     valid.boolean = True
-
     search_fields = ['member__first_name', 'member__last_name']
     list_display = ('member', 'type', 'date', 'passed', 'valid')
     raw_id_fields = ('member',)
@@ -71,8 +67,8 @@ class ShadowAdmin(admin.ModelAdmin):
 
 class ShowAdmin(admin.ModelAdmin):
 
-    search_fields = ['member__first_name', 'member__last_name', 'name']
-    list_display = ('member', 'name', 'submitted', 'approved', 'scheduled', 'shadowable')
+    search_fields = ['name', 'member__first_name', 'member__last_name']
+    list_display = ('name', 'member', 'submitted', 'approved', 'scheduled', 'shadowable')
     raw_id_fields = ('member',)
 
 admin.site.register(Member, MemberAdmin)

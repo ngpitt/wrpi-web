@@ -10,6 +10,7 @@ class Valid(models.Model):
             return date(self.date.year, 12, 31)
         else:
             return date(self.date.year + 1, 6, 30)
+
     @property
     def valid(self):
         return True if date.today() <= self.valid_through else False
@@ -21,6 +22,11 @@ class Member(AbstractUser):
 
     rin = models.IntegerField(max_length=9, null=True, blank=True)
     USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = []
+
+    def name(self):
+        return self.first_name + ' ' + self.last_name
+    name.admin_order_field = 'first_name'
 
     def __unicode__(self):
         return u'%s %s' % (self.first_name, self.last_name)
