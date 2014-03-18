@@ -81,13 +81,13 @@
                                 <li class="grp-user-options-container grp-collapse grp-closed">
                                     <a href="javascript://" class="user-options-handler grp-collapse-handler">Station Documents</a>
                                     <ul class="grp-user-options">
-                                        <li><a href="../meeting_minutes/">Meeting Minutes</a></li>
-                                        <li><a href="../meeting_minutes/">Station Manual</a></li>
-                                        <li><a href="../meeting_minutes/">Bylaws</a></li>
-                                        <li><a href="../meeting_minutes/">Constitution</a></li>
-                                        <li><a href="../meeting_minutes/">Media Statement</a></li>
-                                        <li><a href="../meeting_minutes/">Inboarding Manual</a></li>
-                                        <li><a href="../meeting_minutes/">Station Wiki</a></li>
+                                        <li><a href="../meetingminutes/">Meeting Minutes</a></li>
+                                        <li><a href="../meetingminutes/">Station Manual</a></li>
+                                        <li><a href="../meetingminutes/">Bylaws</a></li>
+                                        <li><a href="../meetingminutes/">Constitution</a></li>
+                                        <li><a href="../meetingminutes/">Media Statement</a></li>
+                                        <li><a href="../meetingminutes/">Inboarding Manual</a></li>
+                                        <li><a href="../meetingminutes/">Station Wiki</a></li>
                                     </ul>                                
                                 </li>
                                 {% for group in user.groups.all %}
@@ -95,14 +95,14 @@
                                     <li class="grp-user-options-container grp-collapse grp-closed">
                                        <a href="javascript://" class="user-options-handler grp-collapse-handler">{{ user.groups.all.0.name }}</a>
                                         <ul class="grp-user-options">
-                                            <li><a href="../meeting_minutes/">Tech Wiki</a></li>
-                                            <li><a href="../meeting_minutes/">Trac</a></li>
+                                            <li><a href="../meetingminutes/">Tech Wiki</a></li>
+                                            <li><a href="../meetingminutes/">Trac</a></li>
                                         </ul>
                                     </li>
                                     {% endif %}
                                 {% endfor %} 
-                                <li><a href="../settings/">User Settings</a></li>
-                                <li><a href="../change_password/">Change Password</a></li>
+                                <li><a href="../settings/">Account Settings</a></li>
+                                <li><a href="../changepassword/">Change Password</a></li>
                                 <li><a href="../logout/">Log out</a></li>
                             {% endblock %}
                         </ul>

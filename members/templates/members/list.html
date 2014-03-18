@@ -1,0 +1,27 @@
+{% extends 'members/base.html' %}
+
+{% block body
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block nav-bar %}
+    <li><a href="/members/home/">Home</a></li>
+    <li>{{ title }}</li>
+{% endblock %}
+
+{% block content %}
+    {% if results.list|length %}
+        <div class="grp-module grp-changelist-results">
+            <table id="result_list" cellspacing="0" class="grp-sortable">
+                    <tbody>
+                        {% for item in results.list %}
+                            {% if result.form.non_field_errors %}
+                                <tr class="grp-errors"><td colspan="{{ result|length }}">{{ result.form.non_field_errors }}</td></tr>
+                            {% endif %}
+                            <tr class="grp-row {% cycle 'grp-row-even' 'grp-row-odd' %}">{{ item }}</tr>
+                        {% endfor %}
+                    </tbody>
+            </table>
+        </div>
+    {% endif %}
+{% endblock %}

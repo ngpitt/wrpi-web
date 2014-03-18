@@ -5,7 +5,7 @@ from members.models import *
 import hashlib
 import base64
 
-def md5(email):
+def sha1(email):
 
     m = hashlib.sha1()
     m.update(email)
@@ -17,12 +17,11 @@ class AuthForm(forms.Form):
     username = forms.CharField(label='Email address')
     password = forms.CharField(widget=forms.PasswordInput)
 
-class SettingsForm(forms.Form):
+class SettingsForm(forms.ModelForm):
 
-    email = forms.CharField(max_length=75, label='Email address')
-    first_name = forms.CharField(max_length=30)
-    last_name = forms.CharField(max_length=30)
-    rin = forms.IntegerField(max_value=999999999, required=False)
+    class Meta:
+        model = Member
+        fields = ['email', 'first_name', 'last_name', 'rin']
 
 class MemberChangeForm(forms.ModelForm):
 
@@ -43,7 +42,7 @@ class MemberChangeForm(forms.ModelForm):
 
     def save(self, commit=True):
         member = super(MemberChangeForm, self).save(commit=False)
-        member.username = md5(member.email)
+        member.username = sha1(member.email)
         member.save()
         return member
 
@@ -81,7 +80,7 @@ class MemberCreationForm(forms.ModelForm):
 
     def save(self, commit=True):
         member = super(MemberCreationForm, self).save(commit=False)
-        member.username = md5(member.email)
+        member.username = sha1(member.email)
         member.set_password(self.cleaned_data['password1'])
         if commit:
             member.save()

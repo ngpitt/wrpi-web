@@ -1,5 +1,6 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
+from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from datetime import date
 from members.models import *
@@ -123,18 +124,67 @@ def home(request):
     status['clearance']['valid'] = True if status['membership']['valid'] and class_attendance['valid'] and exams['valid'] and shadows['valid'] else False
     status['hosting']['valid'] = True if status['clearance']['valid'] and work_hours['hosting']['valid'] else False
 
-    return render(request, 'members/home.html', {'status': status, 'meeting_attendance': meeting_attendance, 'work_hours': work_hours,
+    return render(request, 'members/home.html', {'title': 'Membership Information', 'status': status, 'meeting_attendance': meeting_attendance, 'work_hours': work_hours,
                                                 'class_attendance': class_attendance,'exams': exams, 'shadows': shadows, 'shows': shows})
+
+def meeting_attendance(request):
+    
+    if not request.user.is_authenticated():
+        return redirect('login')
+ 
+    return render(request, 'members/list.html', {'title': 'Meeting Attendance', 'results': get_meeting_attendance(user_id=request.user.id)})
+
+def work_hours(request):
+
+    if not request.user.is_authenticated():
+        return redirect('login')
+
+    return render(request, 'members/list.html', {'title': 'Work Hours', 'results': get_work_hours(user_id=request.user.id)})
+
+def class_attendance(request):
+
+    if not request.user.is_authenticated():
+        return redirect('login')
+
+    return render(request, 'members/list.html', {'title': 'Class Attendance', 'results': get_class_attendance(user_id=request.user.id)})
+
+def exams(request):
+
+    if not request.user.is_authenticated():
+        return redirect('login')
+
+    return render(request, 'members/list.html', {'title': 'Exams', 'results': get_exams(user_id=request.user.id)})
+
+def shadows(request):
+
+    if not request.user.is_authenticated():
+        return redirect('login')
+
+    return render(request, 'members/list.html', {'title': 'Shadows', 'results': get_shadows(user_id=request.user.id)})
+
+def shows(request):
+
+    if not request.user.is_authenticated():
+        return redirect('login')
+
+    return render(request, 'members/list.html', {'title': 'Shows', 'results': get_shows(user_id=request.user.id)})
 
 def settings(request):
 
     if not request.user.is_authenticated():
         return redirect('login')
 
-    if request.method == 'POST':
-        pass
+    instance = Member.objects.get(id=request.user.id)    
 
-    return render(request, 'members/settings.html', {'form': SettingsForm(initial={'email': request.user.email, 'first_name': request.user.first_name, 'last_name': request.user.last_name, 'rin': request.user.rin})})
+    if request.method == 'POST':
+        form = SettingsForm(request.POST, instance=instance)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Account updated.')
+    else:
+        form = SettingsForm(instance=instance)
+
+    return render(request, 'members/settings.html', {'title': 'Account Settings', 'form': form})
 
 def deauth(request):
 

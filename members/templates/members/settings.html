@@ -1,5 +1,22 @@
 {% extends 'members/base.html' %}
 
+{% block extrahead %}
+    <script type="text/javascript">
+        (function($) {
+            $(document).ready(function() {
+                $('[name="_save"]').click(function() {
+                    $("form").submit();
+                });
+                $("form input").keypress(function(e) {
+                    if (e.keyCode && e.keyCode == 13) {
+                        $("form").submit();
+                    }
+                });
+            });
+        })(grp.jQuery);
+    </script>
+{% endblock %}
+
 {% block title %}Settings{% endblock %}
 
 {% block nav-bar %}
@@ -8,9 +25,34 @@
 {% endblock %}
 
 {% block content %}
-    <form action="" method="post">
+    {% if form.errors.items|length %}
+        <p class="errornote">Please correct the error(s) below.</p>
+    {% endif %}
+    <form id="form" action="" method="post">
         {% csrf_token %} 
-        {{ form }}
-        <input type="submit" value="Save"/>
+        <fieldset class="grp-module ">
+            {% for field in form %}
+                <div class="grp-row grp-cells-1">
+                    <div class="l-2c-fluid l-d-4">
+                        <div class="c-1">
+                            <label {% if field.field.required %}class="required"{% endif %}>{{ field.label }}</label>
+                        </div>
+                        <div class="c-2">
+                            {{ field }}
+                            {{ field.errors }}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </fieldset>
     </form>
+{% endblock %}
+
+{% block footer %}
+    <footer class="grp-module grp-submit-row grp-fixed-footer">
+        <header style="display:none"><h1>Submit Options</h1></header>
+        <ul>
+            <li><input type="submit" value="Save" class="grp-button grp-default" name="_save" /></li>
+        </ul>
+    </footer>
 {% endblock %}

@@ -1,5 +1,7 @@
 {% extends 'members/base.html' %}
 
+{% block bodyclass %}dashboard{% endblock %}
+
 {% block title %}Home{% endblock %}
 
 {% block nav-bar %}
@@ -12,7 +14,7 @@
             <div class="grp-module">
                 <h2>Membership</h2>
                 <div class="grp-row">
-                    <a href="../meeting_attendances/"><strong>Meeting attendances</strong></a>
+                    <a href="../meetingattendance/"><strong>Meeting attendance</strong></a>
                     <span class="grp-font-color-quiet">
                         {% if meeting_attendance.valid %}
                             Valid through {{ meeting_attendance.valid_through }}
@@ -22,7 +24,7 @@
                     </span>
                 </div>
                 <div class="grp-row">
-                    <a href="../work_hours/"><strong>Work hours</strong></a>
+                    <a href="../workhours/"><strong>Work hours</strong></a>
                     <span class="grp-font-color-quiet">
                         {% if work_hours.hosting.valid %}
                             Valid through {{ work_hours.hosting.valid_through }}
@@ -39,7 +41,7 @@
                     </ul>
                 </div>
                 <div class="grp-row">
-                    <a href="../class_attendances/"><strong>Class attendances</strong></a>
+                    <a href="../classattendance/"><strong>Class attendance</strong></a>
                     <span class="grp-font-color-quiet">
                         {% if class_attendance.valid %}
                             Valid
@@ -59,7 +61,7 @@
                     </span>
                 </div>
                 <div class="grp-row">
-                    <a href="../Shadows/"><strong>Shadows</strong></a>
+                    <a href="../shadows/"><strong>Shadows</strong></a>
                     <span class="grp-font-color-quiet">
                         {% if shadows.valid %}
                             Valid
